@@ -1,0 +1,3 @@
+include ':spinners'
+include ':app'
+rootProject.name = "UiElements"
