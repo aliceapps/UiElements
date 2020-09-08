@@ -1,4 +1,4 @@
-package com.aliceapps.spinners;
+package com.aliceapps.uielements.spinners;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+
+import com.aliceapps.uielements.R;
 
 public class ImageSpinnerAdapter extends ArrayAdapter<String> {
 
