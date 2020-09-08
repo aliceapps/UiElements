@@ -5,6 +5,7 @@ import android.content.Context;
 import android.widget.Toast;
 
 import com.aliceapps.rxjavautils.BaseSchedulerProvider;
+import com.aliceapps.rxjavautils.MainSchedulerProvider;
 import com.aliceapps.uielements.R;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -12,24 +13,27 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Objects;
-
-import javax.inject.Inject;
-
 import io.reactivex.Single;
 import io.reactivex.observers.DisposableSingleObserver;
 
 public class DatePickerUtils {
-    @Inject
     protected BaseSchedulerProvider schedulerProvider;
     private TextInputEditText dateView;
     private int datePickerStyle = 0;
     private Context context;
 
-    @Inject
     public DatePickerUtils(TextInputEditText dateView, int datePickerStyle, Context context) {
         this.dateView = dateView;
         this.datePickerStyle = datePickerStyle;
         this.context = context;
+        schedulerProvider = new MainSchedulerProvider();
+    }
+
+    public DatePickerUtils(TextInputEditText dateView, int datePickerStyle, Context context, BaseSchedulerProvider schedulerProvider) {
+        this.dateView = dateView;
+        this.datePickerStyle = datePickerStyle;
+        this.context = context;
+        this.schedulerProvider = schedulerProvider;
     }
 
     public void showDatePicker(final DatePickerDialog.OnDateSetListener datePickerListener) {
