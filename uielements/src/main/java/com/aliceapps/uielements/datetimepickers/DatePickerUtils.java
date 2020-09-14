@@ -2,6 +2,7 @@ package com.aliceapps.uielements.datetimepickers;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.aliceapps.rxjavautils.BaseSchedulerProvider;
@@ -18,14 +19,23 @@ import java.util.Objects;
 import javax.inject.Inject;
 
 import io.reactivex.Single;
+import io.reactivex.functions.Consumer;
 import io.reactivex.observers.DisposableSingleObserver;
 
 public class DatePickerUtils {
+    private String TAG = "AliceApps.DatePickerUtils";
     private TextInputEditText dateView;
-    private int datePickerStyle = 0;
+    private int datePickerStyle;
     private Context context;
     @Inject
     BaseSchedulerProvider schedulerProvider;
+
+    public DatePickerUtils(TextInputEditText dateView, Context context) {
+        DaggerWrapper.getComponent().inject(this);
+        this.dateView = dateView;
+        this.datePickerStyle = 0;
+        this.context = context;
+    }
 
     public DatePickerUtils(TextInputEditText dateView, int datePickerStyle, Context context) {
         DaggerWrapper.getComponent().inject(this);
@@ -40,14 +50,19 @@ public class DatePickerUtils {
             final Calendar calendar = Calendar.getInstance();
             final DateFormat sdf = DateFormat.getDateInstance(DateFormat.SHORT);
             if (dateView.getText() != null && !dateView.getText().toString().equals("")) {
+                Log.d(TAG, "showDatePicker: value " + dateView.getText().toString());
                 try {
                     calendar.setTime(Objects.requireNonNull(sdf.parse(dateView.getText().toString())));
                 } catch (ParseException e) {
                     calendar.setTime(Calendar.getInstance().getTime());
+                    Log.d(TAG, "showDatePicker: error ");
                 }
             }
             return calendar;
-        }).subscribeOn(schedulerProvider.io()).observeOn(schedulerProvider.ui()).subscribe(new DisposableSingleObserver<Calendar>() {
+        })
+                .subscribeOn(schedulerProvider.computation())
+                .observeOn(schedulerProvider.ui())
+                .subscribe(new DisposableSingleObserver<Calendar>() {
             @Override
             public void onSuccess(Calendar calendar) {
                 DatePickerDialog datePickerDialog;
@@ -70,25 +85,17 @@ public class DatePickerUtils {
     }
 
     public DatePickerDialog.OnDateSetListener loadDatePickerListener() {
-
         return (view, year, monthOfYear, dayOfMonth) -> Single.fromCallable(() -> {
-            final Calendar calendar = Calendar.getInstance();
+            Calendar calendar = Calendar.getInstance();
+            DateFormat sdf = DateFormat.getDateInstance(DateFormat.SHORT);
             //Set date selected in dialog
             calendar.set(Calendar.YEAR, year);
             calendar.set(Calendar.MONTH, monthOfYear);
             calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            return calendar;
-        }).subscribeOn(schedulerProvider.computation()).observeOn(schedulerProvider.ui()).subscribe(new DisposableSingleObserver<Calendar>() {
-            @Override
-            public void onSuccess(Calendar calendar) {
-                final DateFormat sdf = DateFormat.getDateInstance();
-                dateView.setText(sdf.format(calendar.getTime()));
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                Toast.makeText(context, context.getResources().getString(R.string.failed_show_date_picker), Toast.LENGTH_LONG).show();
-            }
-        });
+            return sdf.format(calendar.getTime());
+        })
+                .subscribeOn(schedulerProvider.computation())
+                .observeOn(schedulerProvider.ui())
+                .subscribe(s -> dateView.setText(s));
     }
 }
