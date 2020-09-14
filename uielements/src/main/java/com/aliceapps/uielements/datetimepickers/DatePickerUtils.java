@@ -6,7 +6,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.aliceapps.rxjavautils.BaseSchedulerProvider;
-import com.aliceapps.rxjavautils.MainSchedulerProvider;
 import com.aliceapps.uielements.R;
 import com.aliceapps.uielements.utility.di.DaggerWrapper;
 import com.google.android.material.textfield.TextInputEditText;
@@ -19,7 +18,6 @@ import java.util.Objects;
 import javax.inject.Inject;
 
 import io.reactivex.Single;
-import io.reactivex.functions.Consumer;
 import io.reactivex.observers.DisposableSingleObserver;
 
 public class DatePickerUtils {

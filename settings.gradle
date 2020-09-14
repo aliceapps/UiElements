@@ -1,3 +1,2 @@
-include ':uielements'
 include ':app'
 rootProject.name = "UiElements"
