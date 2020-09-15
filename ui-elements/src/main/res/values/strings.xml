@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="failed_show_date_picker">Something went wrong</string>
+    <string name="spinner_image">Spinner Image</string>
+</resources>

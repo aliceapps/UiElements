@@ -1,2 +1,2 @@
-include ':uielements', ':app'
+include ':ui-elements', ':app'
 rootProject.name = "UiElements"
