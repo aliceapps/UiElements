@@ -17,6 +17,7 @@ import com.aliceapps.uielements.datetimepickers.TimePickerUtils;
 
 public class TestFragment extends Fragment {
     private FragmentTestBinding binding;
+    private TestObject object;
 
     public TestFragment() {
         // Required empty public constructor
@@ -27,6 +28,9 @@ public class TestFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentTestBinding.inflate(inflater, container, false);
+        object = new TestObject();
+        binding.setSimpleSelectedValue(object);
+        //binding = DataBindingUtil.inflate(inflater, R.layout.fragment_test, container, false);
         return binding.getRoot();
     }
 
@@ -34,6 +38,7 @@ public class TestFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         loadDateField();
         loadTimeField();
+        object.setTestString("female");
     }
 
     @Override

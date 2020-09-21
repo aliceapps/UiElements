@@ -25,6 +25,9 @@ import io.reactivex.Single;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableSingleObserver;
 
+/**
+ * Class provides utility functions for TimePicker dialog
+ */
 public class TimePickerUtils {
     @Inject
     BaseSchedulerProvider schedulerProvider;
@@ -34,6 +37,11 @@ public class TimePickerUtils {
     private AutoDisposable autoDisposable;
     final DateFormat sdf = DateFormat.getTimeInstance(DateFormat.SHORT);
 
+    /**
+     * Constructor for TimePickerUtils class
+     * @param dateView - view to which TimePicker listener will be attached
+     * @param activity - current activity
+     */
     public TimePickerUtils(TextInputEditText dateView, @NonNull AppCompatActivity activity) {
         DaggerWrapper.getComponent().inject(this);
         this.dateView = dateView;
@@ -42,6 +50,11 @@ public class TimePickerUtils {
         autoDisposable = new AutoDisposable(activity.getLifecycle());
     }
 
+    /**
+     * Constructor for TimePickerUtils class
+     * @param dateView - view to which TimePicker listener will be attached
+     * @param fragment - current fragment
+     */
     public TimePickerUtils(TextInputEditText dateView, @NonNull Fragment fragment) {
         DaggerWrapper.getComponent().inject(this);
         this.dateView = dateView;
@@ -50,6 +63,12 @@ public class TimePickerUtils {
         autoDisposable = new AutoDisposable(fragment.getLifecycle());
     }
 
+    /**
+     * Constructor for TimePickerUtils class
+     * @param dateView - view to which TimePicker listener will be attached
+     * @param timePickerStyle - TimePicker theme that will be used in TimePickerDialog
+     * @param activity - current activity
+     */
     public TimePickerUtils(TextInputEditText dateView, int timePickerStyle, @NonNull AppCompatActivity activity) {
         DaggerWrapper.getComponent().inject(this);
         this.dateView = dateView;
@@ -58,6 +77,12 @@ public class TimePickerUtils {
         autoDisposable = new AutoDisposable(activity.getLifecycle());
     }
 
+    /**
+     * Constructor for TimePickerUtils class
+     * @param dateView - view to which TimePicker listener will be attached
+     * @param timePickerStyle - TimePicker theme that will be used in TimePickerDialog
+     * @param fragment - current fragment
+     */
     public TimePickerUtils(TextInputEditText dateView, int timePickerStyle, @NonNull Fragment fragment) {
         DaggerWrapper.getComponent().inject(this);
         this.dateView = dateView;
@@ -66,7 +91,12 @@ public class TimePickerUtils {
         autoDisposable = new AutoDisposable(fragment.getLifecycle());
     }
 
-
+    /**
+     * Initializes and shows TimePickerDialog
+     * @param timeSetListener - TimePickerDialog.OnTimeSetListener listener that will be used
+     * @param show24Hours - true if 24 hours format should be used
+     * @throws Throwable - throws error if dialog can't be shown
+     */
     public void showTimePicker(TimePickerDialog.OnTimeSetListener timeSetListener, boolean show24Hours) throws Throwable {
         Disposable d = Single.fromCallable(() -> {
             final Calendar calendar = Calendar.getInstance();
@@ -102,6 +132,10 @@ public class TimePickerUtils {
         autoDisposable.add(d);
     }
 
+    /**
+     * Initializes TimePickerDialog.OnTimeSetListener listener
+     * @return TimePickerDialog.OnTimeSetListener
+     */
     public TimePickerDialog.OnTimeSetListener loadTimePickerListener() {
 
         return (timePicker, hour, minute) -> {
@@ -121,7 +155,7 @@ public class TimePickerUtils {
     }
 
     @NonNull
-    public static Calendar getAbsoluteTime(int hourOfDay, int minute) {
+    private static Calendar getAbsoluteTime(int hourOfDay, int minute) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.DAY_OF_MONTH, 1);
         calendar.set(Calendar.MONTH, 0);

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pet_gender">
+    <item>Male</item>
+    <item>Female</item>
+</string-array>
+
+    <string-array name="pet_gender_val">
+        <item>male</item>
+        <item>female</item>
+    </string-array>
+
+    <integer-array name="pet_images">
+        <item>@drawable/male</item>
+        <item>@drawable/female</item>
+    </integer-array>
+
+</resources>

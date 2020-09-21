@@ -26,6 +26,9 @@ import io.reactivex.Single;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableSingleObserver;
 
+/**
+ * Class provides utility functions for DatePicker dialog
+ */
 public class DatePickerUtils {
     private String TAG = "AliceApps.DatePickerUtils";
     private TextInputEditText dateView;
@@ -36,6 +39,11 @@ public class DatePickerUtils {
     @Inject
     BaseSchedulerProvider schedulerProvider;
 
+    /**
+     * Constructor for DatePickerUtils class
+     * @param dateView - view to which DatePicker listener will be attached
+     * @param activity - current activity
+     */
     public DatePickerUtils(@NonNull TextInputEditText dateView, @NonNull AppCompatActivity activity) {
         DaggerWrapper.getComponent().inject(this);
         this.dateView = dateView;
@@ -45,6 +53,11 @@ public class DatePickerUtils {
 
     }
 
+    /**
+     * Constructor for DatePickerUtils class
+     * @param dateView - view to which DatePicker listener will be attached
+     * @param fragment - current fragment
+     */
     public DatePickerUtils(@NonNull TextInputEditText dateView, @NonNull Fragment fragment) {
         DaggerWrapper.getComponent().inject(this);
         this.dateView = dateView;
@@ -53,6 +66,12 @@ public class DatePickerUtils {
         autoDisposable = new AutoDisposable(fragment.getLifecycle());
     }
 
+    /**
+     * Constructor for DatePickerUtils class
+     * @param dateView - view to which DatePicker listener will be attached
+     * @param datePickerStyle - DatePicker theme that will be used in DatePickerDialog
+     * @param activity - current activity
+     */
     public DatePickerUtils(TextInputEditText dateView, int datePickerStyle, @NonNull AppCompatActivity activity) {
         DaggerWrapper.getComponent().inject(this);
         this.dateView = dateView;
@@ -61,6 +80,12 @@ public class DatePickerUtils {
         autoDisposable = new AutoDisposable(activity.getLifecycle());
     }
 
+    /**
+     * Constructor for DatePickerUtils class
+     * @param dateView - view to which DatePicker listener will be attached
+     * @param datePickerStyle - DatePicker theme that will be used in DatePickerDialog
+     * @param fragment - current fragment
+     */
     public DatePickerUtils(TextInputEditText dateView, int datePickerStyle, @NonNull Fragment fragment) {
         DaggerWrapper.getComponent().inject(this);
         this.dateView = dateView;
@@ -69,6 +94,11 @@ public class DatePickerUtils {
         autoDisposable = new AutoDisposable(fragment.getLifecycle());
     }
 
+    /**
+     * Initializes and shows DatePickerDialog
+     * @param datePickerListener - DatePickerDialog.OnDateSetListener listener that will be used
+     * @throws Throwable - throws error if dialog can't be shown
+     */
     public void showDatePicker(final DatePickerDialog.OnDateSetListener datePickerListener) throws Throwable {
 
         Disposable d = Single.fromCallable(() -> {
@@ -109,6 +139,10 @@ public class DatePickerUtils {
         autoDisposable.add(d);
     }
 
+    /**
+     * Initializes DatePickerDialog.OnDateSetListener listener
+     * @return DatePickerDialog.OnDateSetListener
+     */
     public DatePickerDialog.OnDateSetListener loadDatePickerListener() {
         return (datePicker, year, monthOfYear, dayOfMonth) -> {
             Disposable d = Single.fromCallable(() -> {
