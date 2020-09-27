@@ -3,6 +3,7 @@ package com.aliceapps.uielements.spinners;
 import android.view.View;
 import android.widget.AdapterView;
 
+import androidx.annotation.NonNull;
 import androidx.databinding.BindingAdapter;
 import androidx.databinding.InverseBindingAdapter;
 import androidx.databinding.InverseBindingListener;
@@ -12,8 +13,8 @@ import java.util.List;
 
 public class SimpleSpinnerBinding {
 
-    @BindingAdapter("simple_spinner_selected_value")
-    public static void setSelectedValue(SimpleSpinnerView view, String value) {
+    @BindingAdapter("spinner_selected_value")
+    public static void setSelectedValue(@NonNull SimpleSpinnerView view, String value) {
         List<CharSequence> values = Arrays.asList(view.getValues());
         if (values.contains(value)) {
             int position = values.indexOf(value);
@@ -23,14 +24,14 @@ public class SimpleSpinnerBinding {
         }
     }
 
-    @InverseBindingAdapter(attribute = "simple_spinner_selected_value", event = "simpleSpinnerSelectedValueAttrChanged")
+    @InverseBindingAdapter(attribute = "spinner_selected_value", event = "spinnerSelectedValueAttrChanged")
     public static String getSelectedValue(SimpleSpinnerView view) {
         int position = view.getSelectedItemPosition();
         return (String) view.getValues()[position];
     }
 
     @BindingAdapter(value = {"android:onItemSelected", "android:onNothingSelected",
-            "simpleSpinnerSelectedValueAttrChanged" }, requireAll = false)
+            "spinnerSelectedValueAttrChanged" }, requireAll = false)
     public static void setOnItemSelectedListener(SimpleSpinnerView view, final OnItemSelected selected,
                                                  final OnNothingSelected nothingSelected, final InverseBindingListener attrChanged) {
         if (selected == null && nothingSelected == null && attrChanged == null) {

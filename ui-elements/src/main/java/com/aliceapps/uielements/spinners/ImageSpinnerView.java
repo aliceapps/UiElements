@@ -109,10 +109,10 @@ public class ImageSpinnerView extends androidx.appcompat.widget.AppCompatSpinner
             entries = spinnerAttrs.getTextArray(R.styleable.Spinner_android_entries);
             spinnerAttrs.recycle();
 
-            TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.ImageSpinnerView);
-            layoutId = a.getResourceId(R.styleable.ImageSpinnerView_image_spinner_item_layout, R.layout.image_spinner);
-            values = a.getTextArray(R.styleable.ImageSpinnerView_image_spinner_values);
-            imagesId = a.getResourceId(R.styleable.ImageSpinnerView_image_spinner_images, 0);
+            TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.SpinnerView);
+            layoutId = a.getResourceId(R.styleable.SpinnerView_spinner_item_layout, R.layout.image_spinner);
+            values = a.getTextArray(R.styleable.SpinnerView_spinner_values);
+            imagesId = a.getResourceId(R.styleable.SpinnerView_spinner_images, 0);
             a.recycle();
         }
 

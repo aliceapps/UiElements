@@ -12,7 +12,7 @@ import java.util.List;
 
 public class ImageSpinnerBinding {
 
-    @BindingAdapter("image_spinner_selected_value")
+    @BindingAdapter("spinner_selected_value")
     public static void setSelectedValue(ImageSpinnerView view, String value) {
         List<CharSequence> values = Arrays.asList(view.getValues());
         if (values.contains(value)) {
@@ -23,14 +23,14 @@ public class ImageSpinnerBinding {
         }
     }
 
-    @InverseBindingAdapter(attribute = "image_spinner_selected_value", event = "imageSpinnerSelectedValueAttrChanged")
+    @InverseBindingAdapter(attribute = "spinner_selected_value", event = "spinnerSelectedValueAttrChanged")
     public static String getSelectedValue(ImageSpinnerView view) {
         int position = view.getSelectedItemPosition();
         return (String) view.getValues()[position];
     }
 
     @BindingAdapter(value = {"android:onItemSelected", "android:onNothingSelected",
-            "imageSpinnerSelectedValueAttrChanged" }, requireAll = false)
+            "spinnerSelectedValueAttrChanged" }, requireAll = false)
     public static void setOnItemSelectedListener(ImageSpinnerView view, final ImageSpinnerBinding.OnItemSelected selected,
                                                  final ImageSpinnerBinding.OnNothingSelected nothingSelected, final InverseBindingListener attrChanged) {
         if (selected == null && nothingSelected == null && attrChanged == null) {
