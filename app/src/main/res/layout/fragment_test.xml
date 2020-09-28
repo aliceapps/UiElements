@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="com.aliceapps.uielements.utility.BindingConverters"/>
         <variable name="simpleSelectedValue" type="com.aliceapps.uielements.TestObject"/>
     </data>
 
@@ -84,6 +85,52 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/simpleSpinner" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/autoComplete"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageSpinner">
+
+                <AutoCompleteTextView
+                    android:id="@+id/autoCompleteTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:entries="@{simpleSelectedValue.result}"
+                    android:hint="AutoCompleteTextView"
+                    app:entries_layout="@{@layout/simple_spinner}" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.aliceapps.uielements.datetimepickers.DateEditText
+                android:id="@+id/DateEditText"
+                android:text="@={BindingConverters.dateToString(simpleSelectedValue.dateField)}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/autoComplete"/>
+
+            <com.aliceapps.uielements.datetimepickers.TimeEditText
+                android:id="@+id/TimeEditText"
+                android:layout_width="0dp"
+                app:use24HourFormat="false"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/DateEditText"/>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
 </layout>

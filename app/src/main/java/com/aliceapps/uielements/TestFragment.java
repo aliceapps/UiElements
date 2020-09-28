@@ -30,7 +30,6 @@ public class TestFragment extends Fragment {
         binding = FragmentTestBinding.inflate(inflater, container, false);
         object = new TestObject();
         binding.setSimpleSelectedValue(object);
-        //binding = DataBindingUtil.inflate(inflater, R.layout.fragment_test, container, false);
         return binding.getRoot();
     }
 

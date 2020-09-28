@@ -25,7 +25,7 @@ public class SimpleSpinnerBinding {
     }
 
     @InverseBindingAdapter(attribute = "spinner_selected_value", event = "spinnerSelectedValueAttrChanged")
-    public static String getSelectedValue(SimpleSpinnerView view) {
+    public static String getSelectedValue(@NonNull SimpleSpinnerView view) {
         int position = view.getSelectedItemPosition();
         return (String) view.getValues()[position];
     }

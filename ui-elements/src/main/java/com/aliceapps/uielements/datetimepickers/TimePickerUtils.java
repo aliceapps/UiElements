@@ -2,6 +2,7 @@ package com.aliceapps.uielements.datetimepickers;
 
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -12,7 +13,6 @@ import com.aliceapps.rxjavautils.AutoDisposable;
 import com.aliceapps.rxjavautils.BaseSchedulerProvider;
 import com.aliceapps.uielements.R;
 import com.aliceapps.uielements.utility.di.DaggerWrapper;
-import com.google.android.material.textfield.TextInputEditText;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -31,18 +31,18 @@ import io.reactivex.observers.DisposableSingleObserver;
 public class TimePickerUtils {
     @Inject
     BaseSchedulerProvider schedulerProvider;
-    private TextInputEditText dateView;
+    private EditText dateView;
     private int timePickerStyle;
     private Context context;
     private AutoDisposable autoDisposable;
-    final DateFormat sdf = DateFormat.getTimeInstance(DateFormat.SHORT);
+    private final DateFormat sdf = DateFormat.getTimeInstance(DateFormat.SHORT);
 
     /**
      * Constructor for TimePickerUtils class
      * @param dateView - view to which TimePicker listener will be attached
      * @param activity - current activity
      */
-    public TimePickerUtils(TextInputEditText dateView, @NonNull AppCompatActivity activity) {
+    public TimePickerUtils(EditText dateView, @NonNull AppCompatActivity activity) {
         DaggerWrapper.getComponent().inject(this);
         this.dateView = dateView;
         this.timePickerStyle = 0;
@@ -55,7 +55,7 @@ public class TimePickerUtils {
      * @param dateView - view to which TimePicker listener will be attached
      * @param fragment - current fragment
      */
-    public TimePickerUtils(TextInputEditText dateView, @NonNull Fragment fragment) {
+    public TimePickerUtils(EditText dateView, @NonNull Fragment fragment) {
         DaggerWrapper.getComponent().inject(this);
         this.dateView = dateView;
         this.timePickerStyle = 0;
@@ -69,7 +69,7 @@ public class TimePickerUtils {
      * @param timePickerStyle - TimePicker theme that will be used in TimePickerDialog
      * @param activity - current activity
      */
-    public TimePickerUtils(TextInputEditText dateView, int timePickerStyle, @NonNull AppCompatActivity activity) {
+    public TimePickerUtils(EditText dateView, int timePickerStyle, @NonNull AppCompatActivity activity) {
         DaggerWrapper.getComponent().inject(this);
         this.dateView = dateView;
         this.timePickerStyle = timePickerStyle;
@@ -83,7 +83,7 @@ public class TimePickerUtils {
      * @param timePickerStyle - TimePicker theme that will be used in TimePickerDialog
      * @param fragment - current fragment
      */
-    public TimePickerUtils(TextInputEditText dateView, int timePickerStyle, @NonNull Fragment fragment) {
+    public TimePickerUtils(EditText dateView, int timePickerStyle, @NonNull Fragment fragment) {
         DaggerWrapper.getComponent().inject(this);
         this.dateView = dateView;
         this.timePickerStyle = timePickerStyle;

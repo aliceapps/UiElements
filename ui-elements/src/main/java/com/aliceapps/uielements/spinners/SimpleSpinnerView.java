@@ -107,9 +107,9 @@ public class SimpleSpinnerView extends androidx.appcompat.widget.AppCompatSpinne
             entries = spinnerAttrs.getTextArray(R.styleable.Spinner_android_entries);
             spinnerAttrs.recycle();
 
-            TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.SpinnerView);
-            layoutId = a.getResourceId(R.styleable.SpinnerView_spinner_item_layout, R.layout.simple_spinner);
-            values = a.getTextArray(R.styleable.SpinnerView_spinner_values);
+            TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.SimpleSpinnerView);
+            layoutId = a.getResourceId(R.styleable.SimpleSpinnerView_spinner_item_layout, R.layout.simple_spinner);
+            values = a.getTextArray(R.styleable.SimpleSpinnerView_spinner_values);
             a.recycle();
         }
 

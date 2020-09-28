@@ -3,7 +3,7 @@ package com.aliceapps.uielements.datetimepickers;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,9 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import com.aliceapps.rxjavautils.AutoDisposable;
 import com.aliceapps.rxjavautils.BaseSchedulerProvider;
-import com.aliceapps.uielements.R;
 import com.aliceapps.uielements.utility.di.DaggerWrapper;
-import com.google.android.material.textfield.TextInputEditText;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -24,17 +22,16 @@ import javax.inject.Inject;
 
 import io.reactivex.Single;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.observers.DisposableSingleObserver;
 
 /**
  * Class provides utility functions for DatePicker dialog
  */
 public class DatePickerUtils {
     private String TAG = "AliceApps.DatePickerUtils";
-    private TextInputEditText dateView;
+    private EditText dateView;
     private int datePickerStyle;
     private Context context;
-    final DateFormat sdf = DateFormat.getDateInstance(DateFormat.SHORT);
+    private final DateFormat sdf = DateFormat.getDateInstance(DateFormat.SHORT);
     private AutoDisposable autoDisposable;
     @Inject
     BaseSchedulerProvider schedulerProvider;
@@ -44,7 +41,7 @@ public class DatePickerUtils {
      * @param dateView - view to which DatePicker listener will be attached
      * @param activity - current activity
      */
-    public DatePickerUtils(@NonNull TextInputEditText dateView, @NonNull AppCompatActivity activity) {
+    public DatePickerUtils(@NonNull EditText dateView, @NonNull AppCompatActivity activity) {
         DaggerWrapper.getComponent().inject(this);
         this.dateView = dateView;
         this.datePickerStyle = 0;
@@ -58,7 +55,7 @@ public class DatePickerUtils {
      * @param dateView - view to which DatePicker listener will be attached
      * @param fragment - current fragment
      */
-    public DatePickerUtils(@NonNull TextInputEditText dateView, @NonNull Fragment fragment) {
+    public DatePickerUtils(@NonNull EditText dateView, @NonNull Fragment fragment) {
         DaggerWrapper.getComponent().inject(this);
         this.dateView = dateView;
         this.datePickerStyle = 0;
@@ -72,7 +69,7 @@ public class DatePickerUtils {
      * @param datePickerStyle - DatePicker theme that will be used in DatePickerDialog
      * @param activity - current activity
      */
-    public DatePickerUtils(TextInputEditText dateView, int datePickerStyle, @NonNull AppCompatActivity activity) {
+    public DatePickerUtils(EditText dateView, int datePickerStyle, @NonNull AppCompatActivity activity) {
         DaggerWrapper.getComponent().inject(this);
         this.dateView = dateView;
         this.datePickerStyle = datePickerStyle;
@@ -86,7 +83,7 @@ public class DatePickerUtils {
      * @param datePickerStyle - DatePicker theme that will be used in DatePickerDialog
      * @param fragment - current fragment
      */
-    public DatePickerUtils(TextInputEditText dateView, int datePickerStyle, @NonNull Fragment fragment) {
+    public DatePickerUtils(EditText dateView, int datePickerStyle, @NonNull Fragment fragment) {
         DaggerWrapper.getComponent().inject(this);
         this.dateView = dateView;
         this.datePickerStyle = datePickerStyle;
@@ -116,26 +113,18 @@ public class DatePickerUtils {
         })
                 .subscribeOn(schedulerProvider.computation())
                 .observeOn(schedulerProvider.ui())
-                .subscribeWith(new DisposableSingleObserver<Calendar>() {
-            @Override
-            public void onSuccess(Calendar calendar) {
-                DatePickerDialog datePickerDialog;
-                if (datePickerStyle != 0)
-                    datePickerDialog = new DatePickerDialog(context, datePickerStyle, datePickerListener, calendar
-                            .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
-                            calendar.get(Calendar.DAY_OF_MONTH));
-                else
-                    datePickerDialog = new DatePickerDialog(context, datePickerListener, calendar
-                            .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
-                            calendar.get(Calendar.DAY_OF_MONTH));
-                datePickerDialog.show();
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                Toast.makeText(context, context.getResources().getString(R.string.failed_show_date_picker), Toast.LENGTH_LONG).show();
-            }
-        });
+                .subscribe(calendar -> {
+                    DatePickerDialog datePickerDialog;
+                    if (datePickerStyle != 0)
+                        datePickerDialog = new DatePickerDialog(context, datePickerStyle, datePickerListener, calendar
+                                .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+                                calendar.get(Calendar.DAY_OF_MONTH));
+                    else
+                        datePickerDialog = new DatePickerDialog(context, datePickerListener, calendar
+                                .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+                                calendar.get(Calendar.DAY_OF_MONTH));
+                    datePickerDialog.show();
+                });
         autoDisposable.add(d);
     }
 

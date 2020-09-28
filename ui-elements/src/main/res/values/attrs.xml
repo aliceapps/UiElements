@@ -1,13 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-
-
-    <declare-styleable name="SpinnerView">
+    <declare-styleable name="UiElementsCustomAttributes">
+        <attr name="entries_layout" format="reference"/>
         <attr name="spinner_values" format="reference" />
         <attr name="spinner_item_layout" format="reference" />
         <attr name="spinner_selected_value" format="string" />
         <attr name="spinner_images" format="reference" />
+    </declare-styleable>
+    
+    <declare-styleable name="DateEditText">
+        <attr name="android:datePickerDialogTheme" />
+    </declare-styleable>
+
+    <declare-styleable name="TimeEditText">
+        <attr name="android:datePickerDialogTheme" />
+        <attr name="use24HourFormat" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="SimpleSpinnerView">
+        <attr name="spinner_values"/>
+        <attr name="spinner_item_layout" />
+        <attr name="spinner_selected_value" />
+    </declare-styleable>
+
+    <declare-styleable name="ImageSpinnerView">
+        <attr name="spinner_values"/>
+        <attr name="spinner_item_layout" />
+        <attr name="spinner_selected_value" />
+        <attr name="spinner_images"/>
     </declare-styleable>
 
 </resources>
