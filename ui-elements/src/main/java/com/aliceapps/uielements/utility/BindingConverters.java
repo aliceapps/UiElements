@@ -31,10 +31,13 @@ public class BindingConverters {
 
     @InverseMethod("stringToDouble")
     @NonNull
-    public static String doubleToString (Double value) {
-        if (value != null && value != 0.0)
-            return "" + value;
-        else return "";
+    public static String doubleToString(Double value) {
+        if (value != null && value != 0.0) {
+            if ((value == Math.floor(value)) && !Double.isInfinite(value))
+                return "" + value.intValue();
+            else
+                return "" + value;
+        } else return "";
     }
 
     @NonNull
