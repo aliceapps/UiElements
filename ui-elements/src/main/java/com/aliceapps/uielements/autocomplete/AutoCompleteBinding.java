@@ -16,7 +16,6 @@ import com.aliceapps.uielements.utility.ViewHelpers;
 import java.util.List;
 
 import io.reactivex.Maybe;
-import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 
 public class AutoCompleteBinding {

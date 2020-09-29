@@ -43,4 +43,18 @@ public class BindingConverters {
             return Double.parseDouble(value);
         else return 0.0;
     }
+
+    @NonNull
+    @InverseMethod("stringToInt")
+    public static String intToString(int value) {
+        if (value != 0)
+            return "" + value;
+        else return "";
+    }
+
+    public static int stringToInt(@NonNull String value) {
+        if (!value.equals(""))
+            return Integer.parseInt(value);
+        else return 0;
+    }
 }
