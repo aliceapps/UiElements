@@ -6,7 +6,10 @@ import androidx.databinding.InverseMethod;
 
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 public class BindingConverters {
 
@@ -59,5 +62,28 @@ public class BindingConverters {
         if (!value.equals(""))
             return Integer.parseInt(value);
         else return 0;
+    }
+
+    @NonNull
+    @InverseMethod("stringToList")
+    public static String listToString(List<String> values) {
+        if (values != null) {
+            String text = values.toString();
+            if (text.length() > 2)
+                text = text.substring(1, text.length() - 1);
+            else
+                text = "";
+            return text;
+        }
+        else return "";
+    }
+
+    @NonNull
+    public static List<String> stringToList(@NonNull String value) {
+        if (!value.equals("")) {
+            String[] list = value.split(",");
+            return Arrays.asList(list);
+        } else
+            return new ArrayList<>();
     }
 }
