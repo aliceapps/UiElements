@@ -1,5 +1,7 @@
 package com.aliceapps.uielements.utility;
 
+import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.InverseMethod;
@@ -85,5 +87,20 @@ public class BindingConverters {
             return Arrays.asList(list);
         } else
             return new ArrayList<>();
+    }
+
+    @InverseMethod("labelToValue")
+    public static String valueToLabel(String value, int valueResource, int labelResource, @NonNull Context mContext) {
+        List<String> entries = Arrays.asList(mContext.getResources().getStringArray(valueResource));
+        int position = entries.indexOf(value);
+        List<String> labels = Arrays.asList(mContext.getResources().getStringArray(labelResource));
+        return  labels.get(position);
+    }
+
+    public static String labelToValue(String label, int valueResource, int labelResource, @NonNull Context mContext) {
+        List<String> labels = Arrays.asList(mContext.getResources().getStringArray(labelResource));
+        int position = labels.indexOf(label);
+        List<String> entries = Arrays.asList(mContext.getResources().getStringArray(valueResource));
+        return  entries.get(position);
     }
 }
