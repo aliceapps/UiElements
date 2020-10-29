@@ -110,7 +110,7 @@
 
             <com.aliceapps.uielements.datetimepickers.DateEditText
                 android:id="@+id/DateEditText"
-                android:text="@={BindingConverters.dateToString(simpleSelectedValue.dateField)}"
+                android:text="@={BindingConverters.dateToString(0, simpleSelectedValue.dateField)}"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"

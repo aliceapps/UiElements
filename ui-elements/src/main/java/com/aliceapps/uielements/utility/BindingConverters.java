@@ -24,7 +24,7 @@ public class BindingConverters {
      */
     @NonNull
     @InverseMethod("stringToDate")
-    public static String dateToString(Date value, int format) {
+    public static String dateToString(int format, Date value) {
         if (format == 0)
             format = DateFormat.SHORT;
 
@@ -41,7 +41,7 @@ public class BindingConverters {
      * @return - Date in specified format or DateFormat.SHORT
      */
     @Nullable
-    public static Date stringToDate(String value, int format) {
+    public static Date stringToDate(int format, String value) {
         if (format == 0)
             format = DateFormat.SHORT;
 
@@ -64,7 +64,7 @@ public class BindingConverters {
      */
     @NonNull
     @InverseMethod("stringToDateTime")
-    public static String dateTimeToString(Date value, int dateFormat, int timeFormat) {
+    public static String dateTimeToString(int dateFormat, int timeFormat, Date value) {
         if (dateFormat == 0)
             dateFormat = DateFormat.SHORT;
         if (timeFormat == 0)
@@ -83,7 +83,7 @@ public class BindingConverters {
      * @return Date in specified format or DateFormat.SHORT, DateFormat.SHORT
      */
     @Nullable
-    public static Date stringToDateTime(String value, int dateFormat, int timeFormat) {
+    public static Date stringToDateTime(int dateFormat, int timeFormat, String value) {
         if (dateFormat == 0)
             dateFormat = DateFormat.SHORT;
         if (timeFormat == 0)

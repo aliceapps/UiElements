@@ -29,8 +29,8 @@ public class BindingConvertersTest {
     public void dateToString() {
         DateFormat sdf = DateFormat.getDateInstance(DateFormat.SHORT); //Date only
         Date time = Calendar.getInstance().getTime();
-        Assert.assertEquals("Correct date",sdf.format(time), BindingConverters.dateToString(time));
-        Assert.assertEquals("Empty date","", BindingConverters.dateToString(null));
+        Assert.assertEquals("Correct date",sdf.format(time), BindingConverters.dateToString(0, time));
+        Assert.assertEquals("Empty date","", BindingConverters.dateToString(0, null));
     }
 
     @Test
@@ -39,17 +39,17 @@ public class BindingConvertersTest {
         Date time = Calendar.getInstance().getTime();
         String res = sdf.format(time);
 
-        Assert.assertEquals("Correct string",sdf.parse(res), BindingConverters.stringToDate(sdf.format(time)));
-        Assert.assertNull("Empty string", BindingConverters.stringToDate(null));
-        Assert.assertNull("Wrong string", BindingConverters.stringToDate("Some wrong string"));
+        Assert.assertEquals("Correct string",sdf.parse(res), BindingConverters.stringToDate(0, sdf.format(time)));
+        Assert.assertNull("Empty string", BindingConverters.stringToDate(0, null));
+        Assert.assertNull("Wrong string", BindingConverters.stringToDate(0, "Some wrong string"));
     }
 
     @Test
     public void dateTimeToString() {
         DateFormat sdf = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT); //Date only
         Date time = Calendar.getInstance().getTime();
-        Assert.assertEquals("Correct date",sdf.format(time), BindingConverters.dateTimeToString(time));
-        Assert.assertEquals("Empty date","", BindingConverters.dateToString(null));
+        Assert.assertEquals("Correct date",sdf.format(time), BindingConverters.dateTimeToString(0, 0, time));
+        Assert.assertEquals("Empty date","", BindingConverters.dateToString(0, null));
     }
 
     @Test
@@ -58,9 +58,9 @@ public class BindingConvertersTest {
         Date time = Calendar.getInstance().getTime();
         String res = sdf.format(time);
 
-        Assert.assertEquals("Correct string",sdf.parse(res), BindingConverters.stringToDateTime(sdf.format(time)));
-        Assert.assertNull("Empty string", BindingConverters.stringToDate(null));
-        Assert.assertNull("Wrong string", BindingConverters.stringToDate("Some wrong string"));
+        Assert.assertEquals("Correct string",sdf.parse(res), BindingConverters.stringToDateTime(0, 0, sdf.format(time)));
+        Assert.assertNull("Empty string", BindingConverters.stringToDate(0, null));
+        Assert.assertNull("Wrong string", BindingConverters.stringToDate(0, "Some wrong string"));
     }
 
     @Test
