@@ -23,6 +23,7 @@ import javax.inject.Inject;
 
 import io.reactivex.Single;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.observers.DisposableSingleObserver;
 
 /**
@@ -31,10 +32,10 @@ import io.reactivex.observers.DisposableSingleObserver;
 public class TimePickerUtils {
     @Inject
     BaseSchedulerProvider schedulerProvider;
-    private EditText dateView;
-    private int timePickerStyle;
-    private Context context;
-    private AutoDisposable autoDisposable;
+    private final EditText dateView;
+    private final int timePickerStyle;
+    private final Context context;
+    private final AutoDisposable autoDisposable;
     private final DateFormat sdf = DateFormat.getTimeInstance(DateFormat.SHORT);
 
     /**
@@ -145,7 +146,7 @@ public class TimePickerUtils {
             })
                     .subscribeOn(schedulerProvider.computation())
                     .observeOn(schedulerProvider.ui())
-                    .subscribe(s -> dateView.setText(s));
+                    .subscribe((Consumer<String>) dateView::setText);
             try {
                 autoDisposable.add(d);
             } catch (Throwable throwable) {

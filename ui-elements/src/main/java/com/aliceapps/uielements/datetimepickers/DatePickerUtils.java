@@ -22,17 +22,39 @@ import javax.inject.Inject;
 
 import io.reactivex.Single;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 
 /**
  * Class provides utility functions for DatePicker dialog
  */
 public class DatePickerUtils {
-    private String TAG = "AliceApps.DatePickerUtils";
-    private EditText dateView;
-    private int datePickerStyle;
-    private Context context;
+    /**
+     * TAG for logging
+     */
+    private final String TAG = DatePickerUtils.class.getSimpleName();
+    /**
+     * EditText field that will contain the date value
+     */
+    private final EditText dateView;
+    /**
+     * Theme of date picker dialog
+     */
+    private final int datePickerStyle;
+    /**
+     * Current context
+     */
+    private final Context context;
+    /**
+     * Date format
+     */
     private final DateFormat sdf = DateFormat.getDateInstance(DateFormat.SHORT);
-    private AutoDisposable autoDisposable;
+    /**
+     * AutoDisposable is used to track lifecycle of an object for RxJava
+     */
+    private final AutoDisposable autoDisposable;
+    /**
+     * BaseSchedulerProvider is used to schedule background job for RxJava
+     */
     @Inject
     BaseSchedulerProvider schedulerProvider;
 
@@ -42,12 +64,7 @@ public class DatePickerUtils {
      * @param activity - current activity
      */
     public DatePickerUtils(@NonNull EditText dateView, @NonNull AppCompatActivity activity) {
-        DaggerWrapper.getComponent().inject(this);
-        this.dateView = dateView;
-        this.datePickerStyle = 0;
-        this.context = activity.getApplicationContext();
-        autoDisposable = new AutoDisposable(activity.getLifecycle());
-
+        this(dateView, 0, activity);
     }
 
     /**
@@ -56,11 +73,7 @@ public class DatePickerUtils {
      * @param fragment - current fragment
      */
     public DatePickerUtils(@NonNull EditText dateView, @NonNull Fragment fragment) {
-        DaggerWrapper.getComponent().inject(this);
-        this.dateView = dateView;
-        this.datePickerStyle = 0;
-        this.context = fragment.getContext();
-        autoDisposable = new AutoDisposable(fragment.getLifecycle());
+        this(dateView, 0, fragment);
     }
 
     /**
@@ -143,7 +156,7 @@ public class DatePickerUtils {
                 return sdf.format(calendar.getTime());
             }) .subscribeOn(schedulerProvider.computation())
                     .observeOn(schedulerProvider.ui())
-                    .subscribe(s -> dateView.setText(s));
+                    .subscribe((Consumer<String>) dateView::setText);
             try {
                 autoDisposable.add(d);
             } catch (Throwable throwable) {

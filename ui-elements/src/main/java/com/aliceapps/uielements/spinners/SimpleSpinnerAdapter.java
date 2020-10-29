@@ -15,9 +15,9 @@ import com.aliceapps.uielements.R;
  * Provides custom ArrayAdapter for Spinner
  */
 public class SimpleSpinnerAdapter extends ArrayAdapter<String> {
-    private int viewId;
-    private CharSequence[] entries;
-    private CharSequence[] values;
+    private final int viewId;
+    private final CharSequence[] entries;
+    private final CharSequence[] values;
 
     /**
      * Constructor for SimpleSpinnerAdapter

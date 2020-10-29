@@ -21,10 +21,10 @@ import java.util.List;
  * Provides custom ArrayAdapter with images for Spinner
  */
 public class ImageSpinnerAdapter extends ArrayAdapter<String> {
-    LayoutInflater inflater;
-    private int viewId;
-    private CharSequence[] entries;
-    private CharSequence[] values;
+    final LayoutInflater inflater;
+    private final int viewId;
+    private final CharSequence[] entries;
+    private final CharSequence[] values;
     private List<Integer> icons = new ArrayList<>();
 
     /**

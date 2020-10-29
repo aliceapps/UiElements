@@ -20,7 +20,7 @@ import java.util.Objects;
 
 public class DateEditText extends androidx.appcompat.widget.AppCompatEditText implements View.OnClickListener {
     private int style;
-    private DateFormat sdf = DateFormat.getDateInstance(DateFormat.SHORT);
+    private final DateFormat sdf = DateFormat.getDateInstance(DateFormat.SHORT);
 
     public DateEditText(Context context) {
         this(context, null);
