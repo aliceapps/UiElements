@@ -13,7 +13,7 @@ public class RecyclerViewBinding {
     /**
      * Binding adapter for adapter attribute
      * @param view - RecyclerView
-     * @param adapter - RecyclerView.Adapter<?> adapter
+     * @param adapter - RecyclerView.Adapter adapter
      */
     @BindingAdapter("adapter")
     public static void setAdapter(@NonNull RecyclerView view, RecyclerView.Adapter<?> adapter) {

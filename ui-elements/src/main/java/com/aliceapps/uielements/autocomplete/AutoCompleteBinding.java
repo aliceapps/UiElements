@@ -26,7 +26,7 @@ public class AutoCompleteBinding {
     /**
      * Binding Adapter for entries and entries_layout attributes
      * @param view - AutoCompleteTextView
-     * @param obj - entries object, can be Maybe<List<String>> or List<String>
+     * @param obj - entries object, can be Maybe of List of String or List of String
      * @param entries_layout - layout that will be used to show entries
      */
     @BindingAdapter(value = {"android:entries", "entries_layout"}, requireAll = false)

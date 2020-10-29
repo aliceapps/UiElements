@@ -189,7 +189,7 @@ public class BindingConverters {
 
     /**
      * Converts List to String
-     * @param values - List<T>
+     * @param values - List
      * @return String or ""
      */
     @NonNull
@@ -209,7 +209,7 @@ public class BindingConverters {
     /**
      * Converts String to List
      * @param value - String
-     * @return List<String>
+     * @return List of String
      */
     @NonNull
     public static List<String> stringToList(String value) {
