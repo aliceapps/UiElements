@@ -5,6 +5,7 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -17,21 +18,49 @@ import com.aliceapps.uielements.utility.ViewHelpers;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Calendar;
-import java.util.Objects;
+import java.util.Date;
 
 public class TimeEditText extends androidx.appcompat.widget.AppCompatEditText implements View.OnClickListener {
+    /**
+     * TAG for logging
+     */
+    private static final String TAG = TimeEditText.class.getSimpleName();
+    /**
+     * Theme of date picker dialog
+     */
     private int style;
+    /**
+     * True if 24 hours format should be applied
+     */
     private boolean format24Hours;
+    /**
+     * Time format
+     */
     private final DateFormat sdf = DateFormat.getTimeInstance(DateFormat.SHORT);
 
+    /**
+     * Constructor
+     * @param context - current context
+     */
     public TimeEditText(Context context) {
         this(context, null);
     }
 
+    /**
+     * Constructor
+     * @param context - current context
+     * @param attrs - view attributes
+     */
     public TimeEditText(Context context, AttributeSet attrs) {
         this(context, attrs, R.attr.editTextStyle);
     }
 
+    /**
+     * Constructor
+     * @param context - current context
+     * @param attrs - view attributes
+     * @param defStyleAttr - default style
+     */
     public TimeEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
@@ -46,10 +75,13 @@ public class TimeEditText extends androidx.appcompat.widget.AppCompatEditText im
         setOnClickListener(this);
     }
 
+    /**
+     * Shows time picker when view is clicked
+     * @param view - current view
+     */
     @Override
     public void onClick(View view) {
         EditText dateView = (EditText) view;
-        DateFormat sdf = DateFormat.getDateInstance(DateFormat.SHORT);
         Activity foundActivity = ViewHelpers.getActivity(view);
         if (foundActivity != null) {
             TimePickerDialog.OnTimeSetListener listener;
@@ -62,11 +94,16 @@ public class TimeEditText extends androidx.appcompat.widget.AppCompatEditText im
 
             final Calendar calendar = Calendar.getInstance();
             if (dateView.getText() != null && !dateView.getText().toString().equals("")) {
+                Date time;
                 try {
-                    calendar.setTime(Objects.requireNonNull(sdf.parse(dateView.getText().toString())));
+                    time = sdf.parse(dateView.getText().toString());
                 } catch (ParseException e) {
-                    calendar.setTime(Calendar.getInstance().getTime());
+                    time = Calendar.getInstance().getTime();
+                    Log.e(TAG, "onClick: error", e);
                 }
+                if (time == null)
+                    time = Calendar.getInstance().getTime();
+                calendar.setTime(time);
             }
             TimePickerDialog datePickerDialog;
             if (style != 0)

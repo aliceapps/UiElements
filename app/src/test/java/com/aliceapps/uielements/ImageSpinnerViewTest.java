@@ -4,6 +4,7 @@ import androidx.fragment.app.testing.FragmentScenario;
 import androidx.test.espresso.ViewInteraction;
 
 import com.aliceapps.uielements.databinding.FragmentTestBinding;
+import com.aliceapps.uielements.spinners.ImageSpinnerView;
 import com.aliceapps.uielements.spinners.SimpleSpinnerView;
 
 import org.junit.Assert;
@@ -28,7 +29,7 @@ import static org.hamcrest.Matchers.allOf;
 @RunWith(RobolectricTestRunner.class)
 @LooperMode(LooperMode.Mode.PAUSED)
 @Config(sdk = {28})
-public class SimpleSpinnerViewTest {
+public class ImageSpinnerViewTest {
     private ViewInteraction field;
     private Random random;
     private CharSequence[] values;
@@ -47,10 +48,10 @@ public class SimpleSpinnerViewTest {
 
         scenario.onFragment((FragmentScenario.FragmentAction<TestFragment>) fragment -> {
             FragmentTestBinding binding = fragment.getBinding();
-            SimpleSpinnerView view = binding.simpleSpinner;
+            ImageSpinnerView view = binding.imageSpinner;
             labels = view.getEntries();
             values = view.getValues();
-            field = onView(withId(binding.simpleSpinner.getId()));
+            field = onView(withId(binding.imageSpinner.getId()));
             field.perform(scrollTo());
             object = fragment.getTestObject();
         });
@@ -68,7 +69,6 @@ public class SimpleSpinnerViewTest {
         onView(allOf(withId(R.id.spinner_text), withText((String) labels[position])))
                 .perform(scrollTo(), click());
         //Check value is selected
-        Assert.assertEquals(values[position], object.getTestString());
+        Assert.assertEquals(values[position], object.getTestStringImage());
     }
-
 }

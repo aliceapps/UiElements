@@ -119,7 +119,7 @@ public class DatePickerUtils {
                     calendar.setTime(Objects.requireNonNull(sdf.parse(dateView.getText().toString())));
                 } catch (ParseException e) {
                     calendar.setTime(Calendar.getInstance().getTime());
-                    Log.d(TAG, "showDatePicker: error ");
+                    Log.e(TAG, "showDatePicker: error", e);
                 }
             }
             return calendar;
@@ -160,6 +160,7 @@ public class DatePickerUtils {
             try {
                 autoDisposable.add(d);
             } catch (Throwable throwable) {
+                Log.e(TAG, "loadDatePickerListener: error", throwable);
                 throwable.printStackTrace();
             }
         };

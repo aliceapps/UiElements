@@ -16,18 +16,36 @@ import java.util.List;
 
 public class BindingConverters {
 
+    /**
+     * Converts Date to String
+     * @param value - Date
+     * @param format - DateFormat
+     * @return - String in specified format or DateFormat.SHORT
+     */
     @NonNull
     @InverseMethod("stringToDate")
-    public static String dateToString(Date value) {
+    public static String dateToString(Date value, int format) {
+        if (format == 0)
+            format = DateFormat.SHORT;
+
         if (value != null) {
-            DateFormat sdf = DateFormat.getDateInstance(DateFormat.SHORT);
+            DateFormat sdf = DateFormat.getDateInstance(format);
             return sdf.format(value);
         } else return "";
     }
 
+    /**
+     * Converts String to Date
+     * @param value - String
+     * @param format - DateFormat
+     * @return - Date in specified format or DateFormat.SHORT
+     */
     @Nullable
-    public static Date stringToDate(String value) {
-        DateFormat sdf = DateFormat.getDateInstance(DateFormat.SHORT);
+    public static Date stringToDate(String value, int format) {
+        if (format == 0)
+            format = DateFormat.SHORT;
+
+        DateFormat sdf = DateFormat.getDateInstance(format);
         if (value != null) {
             try {
                 return sdf.parse(value);
@@ -37,19 +55,41 @@ public class BindingConverters {
         } else return null;
     }
 
+    /**
+     * Converts Date to String
+     * @param value - Date
+     * @param dateFormat - DateFormat
+     * @param timeFormat - TimeFormat
+     * @return String in specified format or DateFormat.SHORT, DateFormat.SHORT
+     */
     @NonNull
     @InverseMethod("stringToDateTime")
-    public static String dateTimeToString(Date value) {
+    public static String dateTimeToString(Date value, int dateFormat, int timeFormat) {
+        if (dateFormat == 0)
+            dateFormat = DateFormat.SHORT;
+        if (timeFormat == 0)
+            timeFormat = DateFormat.SHORT;
         if (value != null) {
-            DateFormat sdf = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
+            DateFormat sdf = DateFormat.getDateTimeInstance(dateFormat, timeFormat);
             return sdf.format(value);
         } else return "";
     }
 
+    /**
+     * Converts String to Date
+     * @param value - String
+     * @param dateFormat - DateFormat
+     * @param timeFormat - TimeFormat
+     * @return Date in specified format or DateFormat.SHORT, DateFormat.SHORT
+     */
     @Nullable
-    public static Date stringToDateTime(String value) {
+    public static Date stringToDateTime(String value, int dateFormat, int timeFormat) {
+        if (dateFormat == 0)
+            dateFormat = DateFormat.SHORT;
+        if (timeFormat == 0)
+            timeFormat = DateFormat.SHORT;
         if (value!= null) {
-            DateFormat sdf = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
+            DateFormat sdf = DateFormat.getDateTimeInstance(dateFormat, timeFormat);
             try {
                 return sdf.parse(value);
             } catch (ParseException e) {
@@ -58,6 +98,11 @@ public class BindingConverters {
         } else return null;
     }
 
+    /**
+     * Converts Double to String
+     * @param value - Double
+     * @return String or ""
+     */
     @InverseMethod("stringToDouble")
     @NonNull
     public static String doubleToString(Double value) {
@@ -69,6 +114,11 @@ public class BindingConverters {
         } else return "";
     }
 
+    /**
+     * Converts String to Double
+     * @param value - String
+     * @return Double or 0
+     */
     @NonNull
     public static Double stringToDouble(String value) {
         if (value != null && !value.equals(""))
@@ -80,6 +130,11 @@ public class BindingConverters {
         else return 0.0;
     }
 
+    /**
+     * Converts int to String
+     * @param value - int
+     * @return String or ""
+     */
     @NonNull
     @InverseMethod("stringToInt")
     public static String intToString(int value) {
@@ -88,6 +143,11 @@ public class BindingConverters {
         else return "";
     }
 
+    /**
+     * Converts String to int
+     * @param value - String
+     * @return int or 0
+     */
     public static int stringToInt(String value) {
         if (value != null && !value.equals(""))
             try {
@@ -98,6 +158,11 @@ public class BindingConverters {
         else return 0;
     }
 
+    /**
+     * Converts Integer to String
+     * @param value - Integer
+     * @return String or ""
+     */
     @NonNull
     @InverseMethod("stringToInteger")
     public static String integerToString(Integer value) {
@@ -106,6 +171,11 @@ public class BindingConverters {
         else return "";
     }
 
+    /**
+     * Converts String to Integer
+     * @param value - String
+     * @return Integer or 0
+     */
     @NonNull
     public static Integer stringToInteger(String value) {
         if (value != null && !value.equals(""))
@@ -117,6 +187,11 @@ public class BindingConverters {
         else return 0;
     }
 
+    /**
+     * Converts List to String
+     * @param values - List<T>
+     * @return String or ""
+     */
     @NonNull
     @InverseMethod("stringToList")
     public static <T> String listToString(List<T> values) {
@@ -131,6 +206,11 @@ public class BindingConverters {
         else return "";
     }
 
+    /**
+     * Converts String to List
+     * @param value - String
+     * @return List<String>
+     */
     @NonNull
     public static List<String> stringToList(String value) {
         if (value != null && !value.equals("")) {
@@ -144,6 +224,14 @@ public class BindingConverters {
             return new ArrayList<>();
     }
 
+    /**
+     * Converts value to label. Used for Spinners
+     * @param value - current value
+     * @param valueResource - values resource ID
+     * @param labelResource - labels resource ID
+     * @param mContext - current context
+     * @return corresponding label
+     */
     @InverseMethod("labelToValue")
     public static String valueToLabel(String value, int valueResource, int labelResource, @NonNull Context mContext) {
         Resources resources = mContext.getResources();
@@ -156,6 +244,14 @@ public class BindingConverters {
             return null;
     }
 
+    /**
+     * Converts label to value. Used for Spinners
+     * @param label - current label
+     * @param valueResource - values resource ID
+     * @param labelResource - labels resource ID
+     * @param mContext - current context
+     * @return corresponding value
+     */
     public static String labelToValue(String label, int valueResource, int labelResource, @NonNull Context mContext) {
         Resources resources = mContext.getResources();
         List<String> labels = Arrays.asList(resources.getStringArray(labelResource));

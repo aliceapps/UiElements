@@ -39,18 +39,18 @@
   <td class="name">DaggerMainComponent</td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    87.5%
   </span>
   <span class="absValue">
-    (0/ 8)
+    (7/ 8)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    91.7%
   </span>
   <span class="absValue">
-    (0/ 11)
+    (11/ 12)
   </span>
 </td>
 </tr>
@@ -58,18 +58,18 @@
     <td class="name">DaggerMainComponent$Builder</td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    100%
   </span>
   <span class="absValue">
-    (0/ 4)
+    (4/ 4)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    87.5%
   </span>
   <span class="absValue">
-    (0/ 7)
+    (7/ 8)
   </span>
 </td>
   </tr>
@@ -77,18 +77,18 @@
   <td class="name"><strong>total</strong></td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    91.7%
   </span>
   <span class="absValue">
-    (0/ 12)
+    (11/ 12)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    90%
   </span>
   <span class="absValue">
-    (0/ 18)
+    (18/ 20)
   </span>
 </td>
 </tr>
@@ -111,15 +111,15 @@
 <i>11</i>&nbsp;    &quot;unchecked&quot;,
 <i>12</i>&nbsp;    &quot;rawtypes&quot;
 <i>13</i>&nbsp;})
-<b class="nc"><i>14</i>&nbsp;public final class DaggerMainComponent implements MainComponent {</b>
+<b class="fc"><i>14</i>&nbsp;public final class DaggerMainComponent implements MainComponent {</b>
 <i>15</i>&nbsp;  private final ModuleUtil moduleUtil;
 <i>16</i>&nbsp;
-<b class="nc"><i>17</i>&nbsp;  private DaggerMainComponent(ModuleUtil moduleUtilParam) {</b>
-<b class="nc"><i>18</i>&nbsp;    this.moduleUtil = moduleUtilParam;</b>
-<i>19</i>&nbsp;  }
+<b class="fc"><i>17</i>&nbsp;  private DaggerMainComponent(ModuleUtil moduleUtilParam) {</b>
+<b class="fc"><i>18</i>&nbsp;    this.moduleUtil = moduleUtilParam;</b>
+<b class="fc"><i>19</i>&nbsp;  }</b>
 <i>20</i>&nbsp;
 <i>21</i>&nbsp;  public static Builder builder() {
-<b class="nc"><i>22</i>&nbsp;    return new Builder();</b>
+<b class="fc"><i>22</i>&nbsp;    return new Builder();</b>
 <i>23</i>&nbsp;  }
 <i>24</i>&nbsp;
 <i>25</i>&nbsp;  public static MainComponent create() {
@@ -128,38 +128,38 @@
 <i>28</i>&nbsp;
 <i>29</i>&nbsp;  @Override
 <i>30</i>&nbsp;  public void inject(TimePickerUtils timePickerUtils) {
-<b class="nc"><i>31</i>&nbsp;    injectTimePickerUtils(timePickerUtils);}</b>
+<b class="fc"><i>31</i>&nbsp;    injectTimePickerUtils(timePickerUtils);}</b>
 <i>32</i>&nbsp;
 <i>33</i>&nbsp;  @Override
 <i>34</i>&nbsp;  public void inject(DatePickerUtils datePickerUtils) {
-<b class="nc"><i>35</i>&nbsp;    injectDatePickerUtils(datePickerUtils);}</b>
+<b class="fc"><i>35</i>&nbsp;    injectDatePickerUtils(datePickerUtils);}</b>
 <i>36</i>&nbsp;
 <i>37</i>&nbsp;  private TimePickerUtils injectTimePickerUtils(TimePickerUtils instance) {
-<b class="nc"><i>38</i>&nbsp;    TimePickerUtils_MembersInjector.injectSchedulerProvider(instance, ModuleUtil_ProvideBaseSchedulerProviderFactory.provideBaseSchedulerProvider(moduleUtil));</b>
-<b class="nc"><i>39</i>&nbsp;    return instance;</b>
+<b class="fc"><i>38</i>&nbsp;    TimePickerUtils_MembersInjector.injectSchedulerProvider(instance, ModuleUtil_ProvideBaseSchedulerProviderFactory.provideBaseSchedulerProvider(moduleUtil));</b>
+<b class="fc"><i>39</i>&nbsp;    return instance;</b>
 <i>40</i>&nbsp;  }
 <i>41</i>&nbsp;
 <i>42</i>&nbsp;  private DatePickerUtils injectDatePickerUtils(DatePickerUtils instance) {
-<b class="nc"><i>43</i>&nbsp;    DatePickerUtils_MembersInjector.injectSchedulerProvider(instance, ModuleUtil_ProvideBaseSchedulerProviderFactory.provideBaseSchedulerProvider(moduleUtil));</b>
-<b class="nc"><i>44</i>&nbsp;    return instance;</b>
+<b class="fc"><i>43</i>&nbsp;    DatePickerUtils_MembersInjector.injectSchedulerProvider(instance, ModuleUtil_ProvideBaseSchedulerProviderFactory.provideBaseSchedulerProvider(moduleUtil));</b>
+<b class="fc"><i>44</i>&nbsp;    return instance;</b>
 <i>45</i>&nbsp;  }
 <i>46</i>&nbsp;
-<b class="nc"><i>47</i>&nbsp;  public static final class Builder {</b>
+<b class="fc"><i>47</i>&nbsp;  public static final class Builder {</b>
 <i>48</i>&nbsp;    private ModuleUtil moduleUtil;
 <i>49</i>&nbsp;
-<b class="nc"><i>50</i>&nbsp;    private Builder() {</b>
-<i>51</i>&nbsp;    }
+<b class="fc"><i>50</i>&nbsp;    private Builder() {</b>
+<b class="fc"><i>51</i>&nbsp;    }</b>
 <i>52</i>&nbsp;
 <i>53</i>&nbsp;    public Builder moduleUtil(ModuleUtil moduleUtil) {
-<b class="nc"><i>54</i>&nbsp;      this.moduleUtil = Preconditions.checkNotNull(moduleUtil);</b>
-<b class="nc"><i>55</i>&nbsp;      return this;</b>
+<b class="fc"><i>54</i>&nbsp;      this.moduleUtil = Preconditions.checkNotNull(moduleUtil);</b>
+<b class="fc"><i>55</i>&nbsp;      return this;</b>
 <i>56</i>&nbsp;    }
 <i>57</i>&nbsp;
 <i>58</i>&nbsp;    public MainComponent build() {
-<b class="nc"><i>59</i>&nbsp;      if (moduleUtil == null) {</b>
+<b class="fc"><i>59</i>&nbsp;      if (moduleUtil == null) {</b>
 <b class="nc"><i>60</i>&nbsp;        this.moduleUtil = new ModuleUtil();</b>
 <i>61</i>&nbsp;      }
-<b class="nc"><i>62</i>&nbsp;      return new DaggerMainComponent(moduleUtil);</b>
+<b class="fc"><i>62</i>&nbsp;      return new DaggerMainComponent(moduleUtil);</b>
 <i>63</i>&nbsp;    }
 <i>64</i>&nbsp;  }
 <i>65</i>&nbsp;}
@@ -168,7 +168,7 @@
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-10-23 11:35</div>
+    <div style="float:right;">generated on 2020-10-29 19:49</div>
 </div>
 </body>
 </html>

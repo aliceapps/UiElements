@@ -18,9 +18,11 @@ import org.robolectric.annotation.LooperMode;
 
 import java.text.DateFormat;
 import java.util.Calendar;
+import java.util.Random;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
@@ -33,22 +35,29 @@ import static org.hamcrest.Matchers.equalTo;
 @Config(sdk = {28})
 public class DatePickerUtilsTest {
     private DateFormat sdf;
-    private FragmentTestBinding binding;
+    private ViewInteraction dateField;
+    private int upperYear = 2100;
+    private int lowerYear = 2000;
+    private Random random;
 
     @Before
     public void setUp() {
+        random = new Random();
         //Create fragment factory
         TestFactory factory = new TestFactory();
         FragmentScenario<TestFragment> scenario = FragmentScenario.launchInContainer(TestFragment.class, null, R.style.Theme_AppCompat, factory);
         sdf = DateFormat.getDateInstance(DateFormat.SHORT);
 
-        scenario.onFragment(fragment -> binding = ((TestFragment) fragment).getBinding());
+        scenario.onFragment((FragmentScenario.FragmentAction<TestFragment>) fragment -> {
+            FragmentTestBinding binding = ((TestFragment) fragment).getBinding();
+            dateField = onView(withId(binding.dateField.getId()));
+            dateField.perform(scrollTo());
+        });
     }
 
     @Test
     public void showDatePicker() {
         //Click on date field
-        ViewInteraction dateField = onView(withId(binding.dateField.getId()));
         dateField.perform(click());
         //check dialog is visible
         ViewInteraction datePicker = onView(withClassName(equalTo(DatePicker.class.getName()))).inRoot(RootMatchers.isDialog());
@@ -58,10 +67,9 @@ public class DatePickerUtilsTest {
     @Test
     public void loadDatePickerListener() {
         //Click on date field
-        int year = 2020;
-        int month = 2;
-        int day = 21;
-        ViewInteraction dateField = onView(withId(binding.dateField.getId()));
+        int year = random.nextInt(upperYear - lowerYear) + lowerYear;
+        int month = random.nextInt(12) + 1;
+        int day = random.nextInt(28) + 1;
         dateField.perform(click());
         //select date
         ViewInteraction datePicker = onView(withClassName(equalTo(DatePicker.class.getName()))).inRoot(RootMatchers.isDialog());
@@ -83,10 +91,9 @@ public class DatePickerUtilsTest {
     @Test
     public void secondSelectionTest() {
         //Click on date field
-        int year = 2020;
-        int month = 2;
-        int day = 21;
-        ViewInteraction dateField = onView(withId(binding.dateField.getId()));
+        int year = random.nextInt(upperYear - lowerYear) + lowerYear;
+        int month = random.nextInt(12) + 1;
+        int day = random.nextInt(28) + 1;
         dateField.perform(click());
         //select date
         ViewInteraction datePicker = onView(withClassName(equalTo(DatePicker.class.getName()))).inRoot(RootMatchers.isDialog());

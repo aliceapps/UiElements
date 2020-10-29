@@ -73,4 +73,8 @@ public class TestFragment extends Fragment {
     public FragmentTestBinding getBinding() {
         return  binding;
     }
+
+    public TestObject getTestObject() {
+        return object;
+    }
 }

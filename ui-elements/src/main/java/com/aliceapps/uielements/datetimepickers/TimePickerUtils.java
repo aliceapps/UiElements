@@ -2,6 +2,7 @@ package com.aliceapps.uielements.datetimepickers;
 
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -17,7 +18,7 @@ import com.aliceapps.uielements.utility.di.DaggerWrapper;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Calendar;
-import java.util.Objects;
+import java.util.Date;
 
 import javax.inject.Inject;
 
@@ -30,12 +31,34 @@ import io.reactivex.observers.DisposableSingleObserver;
  * Class provides utility functions for TimePicker dialog
  */
 public class TimePickerUtils {
+    /**
+     * TAG for logging
+     */
+    private final String TAG = TimePickerUtils.class.getSimpleName();
+    /**
+     * BaseSchedulerProvider is used to schedule background job for RxJava
+     */
     @Inject
     BaseSchedulerProvider schedulerProvider;
+    /**
+     * EditText field that will contain the date value
+     */
     private final EditText dateView;
+    /**
+     * Theme of date picker dialog
+     */
     private final int timePickerStyle;
+    /**
+     * Current context
+     */
     private final Context context;
+    /**
+     * AutoDisposable is used to track lifecycle of an object for RxJava
+     */
     private final AutoDisposable autoDisposable;
+    /**
+     * Time format
+     */
     private final DateFormat sdf = DateFormat.getTimeInstance(DateFormat.SHORT);
 
     /**
@@ -44,11 +67,7 @@ public class TimePickerUtils {
      * @param activity - current activity
      */
     public TimePickerUtils(EditText dateView, @NonNull AppCompatActivity activity) {
-        DaggerWrapper.getComponent().inject(this);
-        this.dateView = dateView;
-        this.timePickerStyle = 0;
-        this.context = activity.getApplicationContext();
-        autoDisposable = new AutoDisposable(activity.getLifecycle());
+        this(dateView, 0 ,activity);
     }
 
     /**
@@ -57,11 +76,7 @@ public class TimePickerUtils {
      * @param fragment - current fragment
      */
     public TimePickerUtils(EditText dateView, @NonNull Fragment fragment) {
-        DaggerWrapper.getComponent().inject(this);
-        this.dateView = dateView;
-        this.timePickerStyle = 0;
-        this.context = fragment.getContext();
-        autoDisposable = new AutoDisposable(fragment.getLifecycle());
+        this(dateView, 0, fragment);
     }
 
     /**
@@ -102,11 +117,16 @@ public class TimePickerUtils {
         Disposable d = Single.fromCallable(() -> {
             final Calendar calendar = Calendar.getInstance();
             if (dateView.getText() != null && !dateView.getText().toString().equals("")) {
+                Date time;
                 try {
-                    calendar.setTime(Objects.requireNonNull(sdf.parse(dateView.getText().toString())));
+                    time = sdf.parse(dateView.getText().toString());
                 } catch (ParseException e) {
-                    calendar.setTime(Calendar.getInstance().getTime());
+                    time = Calendar.getInstance().getTime();
+                    Log.e(TAG, "showTimePicker: error", e);
                 }
+                if (time == null)
+                    time = Calendar.getInstance().getTime();
+                calendar.setTime(time);
             }
             return calendar;
         })
@@ -127,6 +147,7 @@ public class TimePickerUtils {
 
             @Override
             public void onError(Throwable e) {
+                Log.e(TAG, "onError: ", e);
                 Toast.makeText(context, context.getResources().getString(R.string.failed_show_date_picker), Toast.LENGTH_LONG).show();
             }
         });
@@ -150,6 +171,8 @@ public class TimePickerUtils {
             try {
                 autoDisposable.add(d);
             } catch (Throwable throwable) {
+                Log.e(TAG, "loadTimePickerListener: error", throwable);
+                Toast.makeText(context, context.getResources().getString(R.string.failed_show_date_picker), Toast.LENGTH_LONG).show();
                 throwable.printStackTrace();
             }
         };

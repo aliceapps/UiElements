@@ -19,8 +19,8 @@ public class TestObject extends BaseObservable {
 
     public TestObject() {
         List<String> values = new ArrayList<>();
-        values.add("One");
-        values.add("Two");
+        values.add("One Auto");
+        values.add("Two Auto");
         result = Maybe.just(values);
     }
 

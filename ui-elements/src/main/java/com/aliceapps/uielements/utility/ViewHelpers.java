@@ -10,6 +10,11 @@ import androidx.annotation.Nullable;
 
 public class ViewHelpers {
 
+    /**
+     * Returns activity from the view
+     * @param view - current view
+     * @return running activity
+     */
     @Nullable
     public static Activity getActivity(@NonNull View view) {
         Context context = view.getContext();

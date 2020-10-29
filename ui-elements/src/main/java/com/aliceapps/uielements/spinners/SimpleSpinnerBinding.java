@@ -11,8 +11,16 @@ import androidx.databinding.InverseBindingListener;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Binding adapter class for SimpleSpinnerView
+ */
 public class SimpleSpinnerBinding {
 
+    /**
+     * Binding adapter for spinner_selected_value attribute
+     * @param view - SimpleSpinnerView
+     * @param value - field where we want to store value
+     */
     @BindingAdapter("spinner_selected_value")
     public static void setSelectedValue(@NonNull SimpleSpinnerView view, String value) {
         List<CharSequence> values = Arrays.asList(view.getValues());
@@ -24,12 +32,24 @@ public class SimpleSpinnerBinding {
         }
     }
 
+    /**
+     * Inverse adaptor for spinner_selected_value attribute
+     * @param view - SimpleSpinnerView
+     * @return current value
+     */
     @InverseBindingAdapter(attribute = "spinner_selected_value", event = "spinnerSelectedValueAttrChanged")
     public static String getSelectedValue(@NonNull SimpleSpinnerView view) {
         int position = view.getSelectedItemPosition();
         return (String) view.getValues()[position];
     }
 
+    /**
+     * Binding adapter for different actions. Used to properly store value
+     * @param view - SimpleSpinnerView
+     * @param selected - OnItemSelected
+     * @param nothingSelected - OnNothingSelected
+     * @param attrChanged - InverseBindingListener
+     */
     @BindingAdapter(value = {"android:onItemSelected", "android:onNothingSelected",
             "spinnerSelectedValueAttrChanged" }, requireAll = false)
     public static void setOnItemSelectedListener(SimpleSpinnerView view, final OnItemSelected selected,
@@ -41,6 +61,10 @@ public class SimpleSpinnerBinding {
                     new OnItemSelectedComponentListener(selected, nothingSelected, attrChanged));
         }
     }
+
+    /**
+     * Listeners for SimpleSpinnerView
+     */
     public static class OnItemSelectedComponentListener implements AdapterView.OnItemSelectedListener {
         private final OnItemSelected mSelected;
         private final OnNothingSelected mNothingSelected;

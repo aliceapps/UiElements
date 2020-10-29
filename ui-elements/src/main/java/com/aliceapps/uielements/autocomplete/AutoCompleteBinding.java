@@ -18,9 +18,18 @@ import java.util.List;
 import io.reactivex.Maybe;
 import io.reactivex.disposables.Disposable;
 
+/**
+ * Class implements entries and entries_layout binding for AutoCompleteTextView
+ */
 public class AutoCompleteBinding {
 
-    @BindingAdapter(value = {"android:entries", "app:entries_layout"}, requireAll = false)
+    /**
+     * Binding Adapter for entries and entries_layout attributes
+     * @param view - AutoCompleteTextView
+     * @param obj - entries object, can be Maybe<List<String>> or List<String>
+     * @param entries_layout - layout that will be used to show entries
+     */
+    @BindingAdapter(value = {"android:entries", "entries_layout"}, requireAll = false)
     public static void setEntriesList(@NonNull AutoCompleteTextView view, @NonNull Object obj, int entries_layout) {
         if (obj instanceof Maybe) {
             Maybe<List<String>> entries = (Maybe<List<String>>) obj;
@@ -31,6 +40,12 @@ public class AutoCompleteBinding {
         }
     }
 
+    /**
+     * Loads entries from Maybe<List<String>>
+     * @param view - AutoCompleteTextView
+     * @param entries_layout - layout that will be used to show entries
+     * @param entries - Maybe<List<String>> of entries that will be loaded
+     */
     private static void loadObservables(@NonNull AutoCompleteTextView view, int entries_layout, Maybe<List<String>> entries) {
         Activity foundActivity = ViewHelpers.getActivity(view);
         if (foundActivity instanceof AppCompatActivity) {
@@ -52,6 +67,12 @@ public class AutoCompleteBinding {
         }
     }
 
+    /**
+     * Loads entries from List<String>
+     * @param view - AutoCompleteTextView
+     * @param entries_layout - layout that will be used to show entries
+     * @param entries - List<String>
+     */
     private static void loadAdapter(@NonNull AutoCompleteTextView view, int entries_layout, List<String> entries) {
         ArrayAdapter<String> adapter;
         if (entries_layout != 0)

@@ -1,6 +1,5 @@
 package com.aliceapps.uielements;
 
-import android.widget.DatePicker;
 import android.widget.TimePicker;
 
 import androidx.fragment.app.testing.FragmentScenario;
@@ -19,9 +18,11 @@ import org.robolectric.annotation.LooperMode;
 
 import java.text.DateFormat;
 import java.util.Calendar;
+import java.util.Random;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
@@ -34,22 +35,27 @@ import static org.hamcrest.Matchers.equalTo;
 @Config(sdk = {28})
 public class TimePickerUtilsTest {
     private DateFormat sdf;
-    private FragmentTestBinding binding;
+    private ViewInteraction dateField;
+    private Random random;
 
     @Before
     public void setUp() {
+        random = new Random();
         //Create fragment factory
         TestFactory factory = new TestFactory();
         FragmentScenario<TestFragment> scenario = FragmentScenario.launchInContainer(TestFragment.class, null, R.style.Theme_AppCompat, factory);
         sdf = DateFormat.getTimeInstance(DateFormat.SHORT);
 
-        scenario.onFragment(fragment -> binding = ((TestFragment) fragment).getBinding());
+        scenario.onFragment((FragmentScenario.FragmentAction<TestFragment>) fragment -> {
+            FragmentTestBinding binding = ((TestFragment) fragment).getBinding();
+            dateField = onView(withId(binding.timeField.getId()));
+            dateField.perform(scrollTo());
+        });
     }
 
     @Test
     public void showTimePicker() {
         //Click on date field
-        ViewInteraction dateField = onView(withId(binding.timeField.getId()));
         dateField.perform(click());
         //check dialog is visible
         ViewInteraction datePicker = onView(withClassName(equalTo(TimePicker.class.getName()))).inRoot(RootMatchers.isDialog());
@@ -59,9 +65,8 @@ public class TimePickerUtilsTest {
     @Test
     public void loadDatePickerListener() {
         //Click on date field
-        int hour = 6;
-        int minutes = 33;
-        ViewInteraction dateField = onView(withId(binding.timeField.getId()));
+        int hour = random.nextInt(24);
+        int minutes = random.nextInt(60);
         dateField.perform(click());
         //select date
         ViewInteraction datePicker = onView(withClassName(equalTo(TimePicker.class.getName()))).inRoot(RootMatchers.isDialog());
@@ -84,9 +89,8 @@ public class TimePickerUtilsTest {
     @Test
     public void secondSelectionTest() {
         //Click on date field
-        int hour = 6;
-        int minutes = 33;
-        ViewInteraction dateField = onView(withId(binding.timeField.getId()));
+        int hour = random.nextInt(24);
+        int minutes = random.nextInt(60);
         dateField.perform(click());
         //select date
         ViewInteraction datePicker = onView(withClassName(equalTo(TimePicker.class.getName()))).inRoot(RootMatchers.isDialog());

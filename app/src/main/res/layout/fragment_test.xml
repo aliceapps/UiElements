@@ -8,13 +8,14 @@
         <variable name="simpleSelectedValue" type="com.aliceapps.uielements.TestObject"/>
     </data>
 
-    <FrameLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".TestFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
+            android:id="@+id/frame"
             android:layout_height="match_parent">
 
             <com.google.android.material.textfield.TextInputLayout
@@ -73,9 +74,9 @@
 
             <com.aliceapps.uielements.spinners.ImageSpinnerView
                 android:id="@+id/imageSpinner"
-                android:entries="@array/pet_gender"
-                app:spinner_values="@array/pet_gender_val"
-                app:spinner_selected_value="@={simpleSelectedValue.testString}"
+                android:entries="@array/image_label"
+                app:spinner_values="@array/image_val"
+                app:spinner_selected_value="@={simpleSelectedValue.testStringImage}"
                 app:spinner_images="@array/pet_images"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -132,5 +133,5 @@
                 app:layout_constraintTop_toBottomOf="@+id/DateEditText"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </FrameLayout>
+    </ScrollView>
 </layout>

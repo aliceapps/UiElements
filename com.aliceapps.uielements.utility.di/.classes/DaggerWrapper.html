@@ -42,26 +42,26 @@
   <td class="name">DaggerWrapper</td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    100%
   </span>
   <span class="absValue">
-    (0/ 1)
+    (1/ 1)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    66.7%
   </span>
   <span class="absValue">
-    (0/ 3)
+    (2/ 3)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    88.9%
   </span>
   <span class="absValue">
-    (0/ 8)
+    (8/ 9)
   </span>
 </td>
 </tr>
@@ -78,19 +78,19 @@
 <i>4</i>&nbsp;    private static MainComponent mComponent;
 <i>5</i>&nbsp;
 <i>6</i>&nbsp;    public static MainComponent getComponent() {
-<b class="nc"><i>7</i>&nbsp;        if (mComponent == null) {</b>
-<b class="nc"><i>8</i>&nbsp;            initComponent();</b>
+<b class="fc"><i>7</i>&nbsp;        if (mComponent == null) {</b>
+<b class="fc"><i>8</i>&nbsp;            initComponent();</b>
 <i>9</i>&nbsp;        }
-<b class="nc"><i>10</i>&nbsp;        return mComponent;</b>
+<b class="fc"><i>10</i>&nbsp;        return mComponent;</b>
 <i>11</i>&nbsp;    }
 <i>12</i>&nbsp;
 <i>13</i>&nbsp;    private static void initComponent () {
-<b class="nc"><i>14</i>&nbsp;        ModuleUtil util = new ModuleUtil();</b>
+<b class="fc"><i>14</i>&nbsp;        ModuleUtil util = new ModuleUtil();</b>
 <i>15</i>&nbsp;        mComponent = DaggerMainComponent
-<b class="nc"><i>16</i>&nbsp;                .builder()</b>
-<b class="nc"><i>17</i>&nbsp;                .moduleUtil(util)</b>
-<b class="nc"><i>18</i>&nbsp;                .build();</b>
-<i>19</i>&nbsp;    }
+<b class="fc"><i>16</i>&nbsp;                .builder()</b>
+<b class="fc"><i>17</i>&nbsp;                .moduleUtil(util)</b>
+<b class="fc"><i>18</i>&nbsp;                .build();</b>
+<b class="fc"><i>19</i>&nbsp;    }</b>
 <i>20</i>&nbsp;
 <i>21</i>&nbsp;}
 </div>
@@ -98,7 +98,7 @@
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-10-23 11:35</div>
+    <div style="float:right;">generated on 2020-10-29 19:49</div>
 </div>
 </body>
 </html>
