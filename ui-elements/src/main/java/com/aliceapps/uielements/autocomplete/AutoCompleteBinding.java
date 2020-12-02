@@ -29,6 +29,7 @@ public class AutoCompleteBinding {
      * @param obj - entries object, can be Maybe of List of String or List of String
      * @param entries_layout - layout that will be used to show entries
      */
+    @SuppressWarnings("unchecked")
     @BindingAdapter(value = {"android:entries", "entries_layout"}, requireAll = false)
     public static void setEntriesList(@NonNull AutoCompleteTextView view, @NonNull Object obj, int entries_layout) {
         if (obj instanceof Maybe) {
