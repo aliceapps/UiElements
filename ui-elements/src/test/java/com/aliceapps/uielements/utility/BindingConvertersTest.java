@@ -11,6 +11,10 @@ import org.mockito.MockitoAnnotations;
 
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -42,6 +46,25 @@ public class BindingConvertersTest {
         Assert.assertEquals("Correct string",sdf.parse(res), BindingConverters.stringToDate(0, sdf.format(time)));
         Assert.assertNull("Empty string", BindingConverters.stringToDate(0, null));
         Assert.assertNull("Wrong string", BindingConverters.stringToDate(0, "Some wrong string"));
+    }
+
+    @Test
+    public void dateToStringShort() {
+        DateFormat sdf = DateFormat.getDateInstance(DateFormat.SHORT); //Date only
+        Date time = Calendar.getInstance().getTime();
+        Assert.assertEquals("Correct date",sdf.format(time), BindingConverters.dateToStringShort(time));
+        Assert.assertEquals("Empty date","", BindingConverters.dateToStringShort(null));
+    }
+
+    @Test
+    public void stringToDateShort() throws ParseException {
+        DateFormat sdf = DateFormat.getDateInstance(DateFormat.SHORT);
+        Date time = Calendar.getInstance().getTime();
+        String res = sdf.format(time);
+
+        Assert.assertEquals("Correct string",sdf.parse(res), BindingConverters.stringToDateShort(sdf.format(time)));
+        Assert.assertNull("Empty string", BindingConverters.stringToDateShort(null));
+        Assert.assertNull("Wrong string", BindingConverters.stringToDateShort("Some wrong string"));
     }
 
     @Test
@@ -196,4 +219,41 @@ public class BindingConvertersTest {
         Mockito.verify(context).getResources();
         Assert.assertNull(result);
     }
+
+
+    @Test
+    public void localDateToString() {
+        DateTimeFormatter sdf = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT);
+        LocalDate time = LocalDate.now();
+        Assert.assertEquals("Correct date",sdf.format(time), BindingConverters.localDateToString(time));
+        Assert.assertEquals("Empty date","", BindingConverters.localDateToString(null));
+    }
+
+    @Test
+    public void stringToLocalDate() {
+        DateTimeFormatter sdf = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT);
+        LocalDate time = LocalDate.now();
+        String res = sdf.format(time);
+
+        Assert.assertEquals("Correct string",time, BindingConverters.stringToLocalDate(res));
+        Assert.assertNull("Empty string", BindingConverters.stringToLocalDate(null));
+    }
+
+    @Test
+    public void localTimeToString() {
+        DateTimeFormatter sdf = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
+        LocalTime time = LocalTime.now();
+        Assert.assertEquals("Correct date",sdf.format(time), BindingConverters.localTimeToString(time));
+        Assert.assertEquals("Empty date","", BindingConverters.localTimeToString(null));
+    }
+
+    @Test
+    public void stringToLocalTime() {
+        DateTimeFormatter sdf = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
+        LocalTime time = LocalTime.of(13,45);
+
+        Assert.assertEquals("Correct string",time, BindingConverters.stringToLocalTime(time.format(sdf)));
+        Assert.assertNull("Empty string", BindingConverters.stringToLocalTime(null));
+    }
+
 }

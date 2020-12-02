@@ -9,6 +9,10 @@ import androidx.databinding.InverseMethod;
 
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -35,6 +39,20 @@ public class BindingConverters {
     }
 
     /**
+     * Converts Date to String - SHORT Format
+     * @param value - Date
+     * @return - String in DateFormat.SHORT
+     */
+    @NonNull
+    @InverseMethod("stringToDateShort")
+    public static String dateToStringShort(Date value) {
+        if (value != null) {
+            DateFormat sdf = DateFormat.getDateInstance(DateFormat.SHORT);
+            return sdf.format(value);
+        } else return "";
+    }
+
+    /**
      * Converts String to Date
      * @param value - String
      * @param format - DateFormat
@@ -46,6 +64,23 @@ public class BindingConverters {
             format = DateFormat.SHORT;
 
         DateFormat sdf = DateFormat.getDateInstance(format);
+        if (value != null) {
+            try {
+                return sdf.parse(value);
+            } catch (ParseException e) {
+                return null;
+            }
+        } else return null;
+    }
+
+    /**
+     * Converts String to Date
+     * @param value - String
+     * @return - Date in DateFormat.SHORT
+     */
+    @Nullable
+    public static Date stringToDateShort(String value) {
+        DateFormat sdf = DateFormat.getDateInstance(DateFormat.SHORT);
         if (value != null) {
             try {
                 return sdf.parse(value);
@@ -261,5 +296,55 @@ public class BindingConverters {
             return entries.get(position);
         else
             return null;
+    }
+
+    /**
+     * Converts LocalDate to String using FormatStyle.SHORT
+     * @param date - current date
+     * @return - String from date
+     */
+    @InverseMethod("stringToLocalDate")
+    public static String localDateToString(LocalDate date) {
+        if (date != null) {
+            DateTimeFormatter sdf = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT);
+            return sdf.format(date);
+        } else return "";
+    }
+
+    /**
+     * Converts String to LocalDate using FormatStyle.SHORT
+     * @param date - String text
+     * @return - LocalDate
+     */
+    public static LocalDate stringToLocalDate(String date) {
+        if (date != null && !date.equals("")) {
+            DateTimeFormatter sdf = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT);
+            return LocalDate.parse(date,sdf);
+        } else return null;
+    }
+
+    /**
+     * Converts LocalTime to String using FormatStyle.SHORT
+     * @param date - current time
+     * @return - String from time
+     */
+    @InverseMethod("stringToLocalTime")
+    public static String localTimeToString(LocalTime date) {
+        if (date != null) {
+            DateTimeFormatter sdf = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
+            return sdf.format(date);
+        } else return "";
+    }
+
+    /**
+     * Converts String to LocalTime using FormatStyle.SHORT
+     * @param date - String text
+     * @return - LocalTime
+     */
+    public static LocalTime stringToLocalTime(String date) {
+        if (date != null) {
+            DateTimeFormatter sdf = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
+            return LocalTime.parse(date,sdf);
+        } else return null;
     }
 }
