@@ -15,10 +15,9 @@ import com.aliceapps.rxjavautils.BaseSchedulerProvider;
 import com.aliceapps.uielements.R;
 import com.aliceapps.uielements.utility.di.DaggerWrapper;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 
 import javax.inject.Inject;
 
@@ -59,7 +58,7 @@ public class TimePickerUtils {
     /**
      * Time format
      */
-    private final DateFormat sdf = DateFormat.getTimeInstance(DateFormat.SHORT);
+    private final DateTimeFormatter sdf = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
 
     /**
      * Constructor for TimePickerUtils class
@@ -115,38 +114,31 @@ public class TimePickerUtils {
      */
     public void showTimePicker(TimePickerDialog.OnTimeSetListener timeSetListener, boolean show24Hours) throws Throwable {
         Disposable d = Single.fromCallable(() -> {
-            final Calendar calendar = Calendar.getInstance();
+            LocalTime currentTime = LocalTime.now();
             if (dateView.getText() != null && !dateView.getText().toString().equals("")) {
-                Date time;
-                try {
-                    time = sdf.parse(dateView.getText().toString());
-                } catch (ParseException e) {
-                    time = Calendar.getInstance().getTime();
-                    Log.e(TAG, "showTimePicker: error", e);
+                if (dateView.getText() != null && !dateView.getText().toString().equals("")) {
+                    currentTime = LocalTime.parse(dateView.getText().toString(),sdf);
                 }
-                if (time == null)
-                    time = Calendar.getInstance().getTime();
-                calendar.setTime(time);
             }
-            return calendar;
+            return currentTime;
         })
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
-                .subscribeWith(new DisposableSingleObserver<Calendar>() {
+                .subscribeWith(new DisposableSingleObserver<LocalTime>() {
             @Override
-            public void onSuccess(Calendar calendar) {
+            public void onSuccess(@NonNull LocalTime calendar) {
                 TimePickerDialog datePickerDialog;
                 if (timePickerStyle != 0)
-                    datePickerDialog = new TimePickerDialog(context, timePickerStyle, timeSetListener, calendar
-                            .get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), show24Hours);
+                    datePickerDialog = new TimePickerDialog(context, timePickerStyle, timeSetListener,
+                            calendar.getHour(), calendar.getMinute(), show24Hours);
                 else
-                    datePickerDialog = new TimePickerDialog(context, timeSetListener, calendar
-                            .get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), show24Hours);
+                    datePickerDialog = new TimePickerDialog(context, timeSetListener,
+                            calendar.getHour(), calendar.getMinute(), show24Hours);
                 datePickerDialog.show();
             }
 
             @Override
-            public void onError(Throwable e) {
+            public void onError(@NonNull Throwable e) {
                 Log.e(TAG, "onError: ", e);
                 Toast.makeText(context, context.getResources().getString(R.string.failed_show_date_picker), Toast.LENGTH_LONG).show();
             }
@@ -162,8 +154,8 @@ public class TimePickerUtils {
 
         return (timePicker, hour, minute) -> {
             Disposable d = Single.fromCallable(() -> {
-                Calendar c = getAbsoluteTime(hour, minute);
-                return sdf.format(c.getTime());
+                LocalTime time = LocalTime.of(hour, minute);
+                return sdf.format(time);
             })
                     .subscribeOn(schedulerProvider.computation())
                     .observeOn(schedulerProvider.ui())
@@ -176,18 +168,5 @@ public class TimePickerUtils {
                 throwable.printStackTrace();
             }
         };
-    }
-
-    @NonNull
-    private static Calendar getAbsoluteTime(int hourOfDay, int minute) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.DAY_OF_MONTH, 1);
-        calendar.set(Calendar.MONTH, 0);
-        calendar.set(Calendar.YEAR, 2000);
-        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-        calendar.set(Calendar.MINUTE, minute);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-        return calendar;
     }
 }

@@ -16,8 +16,9 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 import org.robolectric.annotation.LooperMode;
 
-import java.text.DateFormat;
-import java.util.Calendar;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.Random;
 
 import static androidx.test.espresso.Espresso.onView;
@@ -34,7 +35,7 @@ import static org.hamcrest.Matchers.equalTo;
 @LooperMode(LooperMode.Mode.PAUSED)
 @Config(sdk = {28})
 public class TimePickerUtilsTest {
-    private DateFormat sdf;
+    private DateTimeFormatter sdf;
     private ViewInteraction dateField;
     private Random random;
 
@@ -44,10 +45,10 @@ public class TimePickerUtilsTest {
         //Create fragment factory
         TestFactory factory = new TestFactory();
         FragmentScenario<TestFragment> scenario = FragmentScenario.launchInContainer(TestFragment.class, null, R.style.Theme_AppCompat, factory);
-        sdf = DateFormat.getTimeInstance(DateFormat.SHORT);
+        sdf = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
 
-        scenario.onFragment((FragmentScenario.FragmentAction<TestFragment>) fragment -> {
-            FragmentTestBinding binding = ((TestFragment) fragment).getBinding();
+        scenario.onFragment(fragment -> {
+            FragmentTestBinding binding = fragment.getBinding();
             dateField = onView(withId(binding.timeField.getId()));
             dateField.perform(scrollTo());
         });
@@ -74,15 +75,8 @@ public class TimePickerUtilsTest {
         datePicker.perform(PickerActions.setTime(hour, minutes));
         okButton.perform(click());
         //check date is filled
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.DAY_OF_MONTH, 1);
-        calendar.set(Calendar.MONTH, 0);
-        calendar.set(Calendar.YEAR, 2000);
-        calendar.set(Calendar.HOUR_OF_DAY, hour);
-        calendar.set(Calendar.MINUTE, minutes);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-        String text = sdf.format(calendar.getTime());
+        LocalTime time = LocalTime.of(hour, minutes);
+        String text = sdf.format(time);
         dateField.check(matches(withText(text)));
     }
 
@@ -101,15 +95,8 @@ public class TimePickerUtilsTest {
         dateField.perform(click());
         okButton.perform(click());
         //check date is still the same
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.DAY_OF_MONTH, 1);
-        calendar.set(Calendar.MONTH, 0);
-        calendar.set(Calendar.YEAR, 2000);
-        calendar.set(Calendar.HOUR_OF_DAY, hour);
-        calendar.set(Calendar.MINUTE, minutes);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-        String text = sdf.format(calendar.getTime());
+        LocalTime time = LocalTime.of(hour, minutes);
+        String text = sdf.format(time);
         dateField.check(matches(withText(text)));
     }
 }

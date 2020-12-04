@@ -5,20 +5,17 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.aliceapps.uielements.R;
 import com.aliceapps.uielements.utility.ViewHelpers;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 
 public class TimeEditText extends androidx.appcompat.widget.AppCompatEditText implements View.OnClickListener {
     /**
@@ -36,7 +33,7 @@ public class TimeEditText extends androidx.appcompat.widget.AppCompatEditText im
     /**
      * Time format
      */
-    private final DateFormat sdf = DateFormat.getTimeInstance(DateFormat.SHORT);
+    private final DateTimeFormatter sdf = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
 
     /**
      * Constructor
@@ -92,48 +89,26 @@ public class TimeEditText extends androidx.appcompat.widget.AppCompatEditText im
         } else
             listener = loadTimePickerListener(dateView);
 
-            final Calendar calendar = Calendar.getInstance();
+            LocalTime currentTime = LocalTime.now();
             if (dateView.getText() != null && !dateView.getText().toString().equals("")) {
-                Date time;
-                try {
-                    time = sdf.parse(dateView.getText().toString());
-                } catch (ParseException e) {
-                    time = Calendar.getInstance().getTime();
-                    Log.e(TAG, "onClick: error", e);
-                }
-                if (time == null)
-                    time = Calendar.getInstance().getTime();
-                calendar.setTime(time);
+                currentTime = LocalTime.parse(dateView.getText().toString(),sdf);
             }
             TimePickerDialog datePickerDialog;
             if (style != 0)
-                datePickerDialog = new TimePickerDialog(foundActivity, style, listener, calendar
-                        .get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), format24Hours);
+                datePickerDialog = new TimePickerDialog(foundActivity, style, listener,
+                        currentTime.getHour(), currentTime.getMinute(), format24Hours);
             else
-                datePickerDialog = new TimePickerDialog(foundActivity, listener, calendar
-                        .get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), format24Hours);
+                datePickerDialog = new TimePickerDialog(foundActivity, listener,
+                        currentTime.getHour(), currentTime.getMinute(), format24Hours);
             datePickerDialog.show();
         }
     }
 
     private TimePickerDialog.OnTimeSetListener loadTimePickerListener(EditText dateView) {
         return (timePicker, hour, minute) -> {
-                Calendar c = getAbsoluteTime(hour, minute);
-                String s = sdf.format(c.getTime());
+            LocalTime time = LocalTime.of(hour, minute);
+            String s = sdf.format(time);
             dateView.setText(s);
         };
-    }
-
-    @NonNull
-    private static Calendar getAbsoluteTime(int hourOfDay, int minute) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.DAY_OF_MONTH, 1);
-        calendar.set(Calendar.MONTH, 0);
-        calendar.set(Calendar.YEAR, 2000);
-        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-        calendar.set(Calendar.MINUTE, minute);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-        return calendar;
     }
 }
