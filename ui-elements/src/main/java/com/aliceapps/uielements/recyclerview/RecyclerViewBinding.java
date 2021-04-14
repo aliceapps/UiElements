@@ -23,6 +23,17 @@ public class RecyclerViewBinding {
     }
 
     /**
+     * Binding adapter for adapter attribute
+     * @param view - RecyclerView
+     * @param adapter - RecyclerView.Adapter adapter
+     */
+    @BindingAdapter({"adapter", "layout_manager"})
+    public static void setAdapterWithLayout(@NonNull RecyclerView view, RecyclerView.Adapter<?> adapter, LinearLayoutManager layoutManager) {
+        view.setAdapter(adapter);
+        view.setLayoutManager(layoutManager);
+    }
+
+    /**
      * Binding adapter for decoration attribute
      * @param view - RecyclerView
      * @param decoration - RecyclerView.ItemDecoration
