@@ -1,11 +1,19 @@
 package com.aliceapps.uielements;
 
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.scrollTo;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.allOf;
+
 import androidx.fragment.app.testing.FragmentScenario;
 import androidx.test.espresso.ViewInteraction;
 
 import com.aliceapps.uielements.databinding.FragmentTestBinding;
 import com.aliceapps.uielements.spinners.ImageSpinnerView;
-import com.aliceapps.uielements.spinners.SimpleSpinnerView;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -17,18 +25,13 @@ import org.robolectric.annotation.LooperMode;
 
 import java.util.Random;
 
-import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.scrollTo;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.Matchers.allOf;
-
 @RunWith(RobolectricTestRunner.class)
 @LooperMode(LooperMode.Mode.PAUSED)
-@Config(sdk = {28})
+@Config(sdk = {28},
+        instrumentedPackages = {
+                // required to access final members on androidx.loader.content.ModernAsyncTask
+                "androidx.loader.content"
+        })
 public class ImageSpinnerViewTest {
     private ViewInteraction field;
     private Random random;

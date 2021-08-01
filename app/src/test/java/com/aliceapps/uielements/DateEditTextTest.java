@@ -32,12 +32,16 @@ import static org.hamcrest.Matchers.equalTo;
 
 @RunWith(RobolectricTestRunner.class)
 @LooperMode(LooperMode.Mode.PAUSED)
-@Config(sdk = {28})
+@Config(sdk = {28},
+        instrumentedPackages = {
+                // required to access final members on androidx.loader.content.ModernAsyncTask
+                "androidx.loader.content"
+        })
 public class DateEditTextTest {
     private DateFormat sdf;
     private ViewInteraction dateField;
-    private int upperYear = 2100;
-    private int lowerYear = 2000;
+    private final int upperYear = 2100;
+    private final int lowerYear = 2000;
     private Random random;
 
     @Before

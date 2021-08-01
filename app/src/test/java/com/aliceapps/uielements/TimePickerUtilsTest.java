@@ -33,7 +33,11 @@ import static org.hamcrest.Matchers.equalTo;
 
 @RunWith(RobolectricTestRunner.class)
 @LooperMode(LooperMode.Mode.PAUSED)
-@Config(sdk = {28})
+@Config(sdk = {28},
+        instrumentedPackages = {
+                // required to access final members on androidx.loader.content.ModernAsyncTask
+                "androidx.loader.content"
+        })
 public class TimePickerUtilsTest {
     private DateTimeFormatter sdf;
     private ViewInteraction dateField;

@@ -269,7 +269,7 @@ public class BindingConverters {
      * @return corresponding label
      */
     @InverseMethod("labelToValue")
-    public static String valueToLabel(String value, int valueResource, int labelResource, @NonNull Context mContext) {
+    public static String valueToLabel(int valueResource, int labelResource, @NonNull Context mContext, String value) {
         Resources resources = mContext.getResources();
         List<String> entries = Arrays.asList(resources.getStringArray(valueResource));
         int position = entries.indexOf(value);
@@ -288,7 +288,7 @@ public class BindingConverters {
      * @param mContext - current context
      * @return corresponding value
      */
-    public static String labelToValue(String label, int valueResource, int labelResource, @NonNull Context mContext) {
+    public static String labelToValue(int valueResource, int labelResource, @NonNull Context mContext, String label) {
         Resources resources = mContext.getResources();
         List<String> labels = Arrays.asList(resources.getStringArray(labelResource));
         int position = labels.indexOf(label);
