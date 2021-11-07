@@ -271,6 +271,7 @@ public class BindingConverters {
     /**
      * Converts LocalDate to String using FormatStyle.SHORT
      * @param date - current date
+     * @param style style of date, for example FormatStyle.SHORT
      * @return - String from date
      */
     @InverseMethod("stringToLocalDate")
@@ -286,6 +287,7 @@ public class BindingConverters {
     /**
      * Converts String to LocalDate using FormatStyle.SHORT
      * @param date - String text
+     * @param style style of date, for example FormatStyle.SHORT
      * @return - LocalDate
      */
     public static LocalDate stringToLocalDate(FormatStyle style, String date) {
@@ -300,6 +302,7 @@ public class BindingConverters {
     /**
      * Converts LocalTime to String using FormatStyle.SHORT
      * @param date - current time
+     * @param style style of date, for example FormatStyle.SHORT
      * @return - String from time
      */
     @InverseMethod("stringToLocalTime")
@@ -315,6 +318,7 @@ public class BindingConverters {
     /**
      * Converts String to LocalTime using FormatStyle.SHORT
      * @param date - String text
+     * @param style style of date, for example FormatStyle.SHORT
      * @return - LocalTime
      */
     public static LocalTime stringToLocalTime(FormatStyle style, String date) {
